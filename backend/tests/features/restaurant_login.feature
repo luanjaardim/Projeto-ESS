@@ -1,6 +1,6 @@
-Feature: login_restaurant
+Feature: login_restaurant Service
     As a usuário não logado
-    I want to fazer login com meu email e senha
+    I want to fazer login com meu email e senha e recuperar a senha caso necessário
     So that eu posso acessar minha conta no iBreno
 
 Scenario: Login realizado com sucesso
@@ -9,22 +9,6 @@ Scenario: Login realizado com sucesso
 	Then a senha "senha_errada_restaurant" não corresponde à senha correta “senha_restaurant“
 	And é retornado status “401”
 	And o login não pode ser concluído
-
-Scenario: Login fracassou pois a senha está incorreta
-	Given eu estou na aba “Login”
-	And eu preencho o campo de email com um email cadastrado “ecab@cin.ufpe.br”
-	And eu não preencho o campo de senha
-	When eu tento realizar login
-	Then eu devo ver uma mensagem de erro no login
-	And eu permaneço na aba “Login”
-
-
-Scenario: Login fracassou pois um dos campos está incorreto
-	Given eu estou na aba “Login”
-	And eu preencho o campo de email com um email cadastrado “ecab@cin.ufpe.br”
-	And eu preencho o campo de senha com a senha correspondente “senha_restaurant”
-	When eu tento realizar login
-	Then eu sou redirecionado para a aba seguinte
 
 Scenario: Login realizado com sucesso
 	Given existe um restaurante cadastrado com email “ecab@cin.ufpe.br” e com senha “111111”
@@ -81,4 +65,3 @@ Scenario: Criação de nova senha falha
 	When uma requisição POST é enviada para “/recover/password" com os dados "ecab@cin.ufpe.br" e “123Em”
 	Then a senha do restaurante de e-mail "ecab@cin.ufpe.br" não é atualizada 
 	And é retornado status "401"
-
