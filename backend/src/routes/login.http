@@ -1,0 +1,9 @@
+
+POST http://localhost:5001/restaurant/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "emilly@gmail.com",
+    "password": "1263"
+}
+
