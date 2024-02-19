@@ -18,12 +18,14 @@ export default class ShoppingCartService {
             return [201, 'Item added to cart'];
         }
         catch (error: any) {
-            // console.log(error.code)
+            console.log(error.code);
             switch(error.code) {
                 //this is the error code from prisma when the foreign key constraint is violated
                 //it means that the itemId or clientId does not exist
+                case 'P2002':
+                    return [400, 'Item already on ShoppingCart'];
                 case 'P2003':
-                    return [400, 'Pair itemId and clientId already exists'];
+                    return [400, 'Item does not exist'];
                 default:
                     return [500, 'InsertOrderItem: Internal Server Error'];
             }
@@ -64,7 +66,13 @@ export default class ShoppingCartService {
             return [200, 'Item updated'];
         }
         catch (error: any) {
-            return [500, 'UpdateOrderItem: Internal Server Error'];
+            console.log(error.code);
+            switch(error.code) {
+                case 'P2025':
+                    return [400, 'Item not found in cart'];
+                default:
+                    return [500, 'UpdateOrderItem: Internal Server Error'];
+            }
         }
     }
 }
