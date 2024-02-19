@@ -1,4 +1,5 @@
 import { Express, Router } from 'express';
+import RestaurantLoginController from '../controllers/RestaurantLoginController';
 import RestaurantController from '../controllers/RestaurantController';
 //import ShoppingCartController from '../controllers/ShoppingCartController';
 import OrderCancellationController from '../controllers/OrderCancellationController';
@@ -33,6 +34,12 @@ router.put(
   RestaurantController.validate('update'),
   RestaurantController.update
 );
+
+router.post('/restaurant/login', RestaurantLoginController.login);
+
+router.get('/restaurant/home', RestaurantLoginController.verifyToken, (req, res) => {
+  res.status(200).json({ message: 'Acesso concedido.'}); //, userId: req.userId 
+});
 
 ShoppingCartController.setupRoutes(router);
 
