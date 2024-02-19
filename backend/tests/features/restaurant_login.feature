@@ -5,21 +5,21 @@ Feature: login_restaurant Service
 
 Scenario: Login fracassou, pois a senha está incorreta
 	Given existe um restaurante cadastrado com email "ecab@cin.ufpe.br" e com senha "senha_restaurant"
-	When uma requisição POST é enviada para "/restaurant" com os dados "ecab@cin.ufpe.br" e "senha_restaurant"
+	When uma requisição POST é enviada para "/restaurant/login" com os dados "ecab@cin.ufpe.br" e "senha_errada_restaurant"
 	Then a senha "senha_errada_restaurant" não corresponde à senha correta "senha_restaurant"
 	And é retornado status "401"
 	And o login não pode ser concluído
 
 Scenario: Login fracassou, pois o email não está cadastrado
 	Given não existe um restaurante cadastrado com email "ecab@cin.ufpe.br" e com senha "777777"
-	When uma requisição POST é enviada para "/restaurant" com os dados "ecab@cin.ufpe.br" e "1234"
+	When uma requisição POST é enviada para "/restaurant/login" com os dados "ecab@cin.ufpe.br" e "1234"
 	Then o email "ecab@cin.ufpe.br" não é encontrado no banco de dados
 	And é retornado status "401"
 	And o login não pode ser concluído
 
 Scenario: Login realizado com sucesso
 	Given existe um restaurante cadastrado com email "ecab@cin.ufpe.br" e com senha "111111"
-	When uma requisição POST é enviada para "/restaurant" com os dados "ecab@cin.ufpe.br" e "111111"
+	When uma requisição POST é enviada para "/restaurant/login" com os dados "ecab@cin.ufpe.br" e "111111"
 	Then os dados são encontrados no banco de dados
 	And é retornado status "202"
 	And o login é realizado com sucesso

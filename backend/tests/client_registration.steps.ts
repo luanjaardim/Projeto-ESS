@@ -206,9 +206,9 @@ defineFeature(feature, (test) => {
     when(/^uma requisição PUT é enviada para "(.*)" com os valores "(.*)",  "(.*)", email "(.*)", endereco "(.*)" senha "(.*)"$/,
     async (url, name, cpf, email, address, password) => {
       prismaMock.client.findFirst.mockResolvedValueOnce(clients[0]);
-      console.log(email);
-      console.log(clients[0].email);
-      console.log(clients[1].email);
+      // console.log(email);
+      // console.log(clients[0].email);
+      // console.log(clients[1].email);
     response = await request.put(url).send({ email });
     });
 
