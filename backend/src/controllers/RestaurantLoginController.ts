@@ -14,7 +14,7 @@ class RestaurantLoginController {
         // Geração do token de autenticação
         const token = jwt.sign({ restaurantId: restaurant.id }, 'chave_secreta_token', { expiresIn: '18h' });
 
-        res.status(200).json({ message: 'Login bem-sucedido', token });
+        res.status(202).json({ message: 'Login bem-sucedido', header: token });
       }
     } catch (error: any) {
       res.status(401).json({ error: 'Login falhou' });
@@ -22,7 +22,7 @@ class RestaurantLoginController {
   }
 
   static async verifyToken(req: Request, res: Response, next: Function) {
-    const authToken = req.headers.authorization;
+    const authToken = req.body.header;
     if (!authToken) {
       return res.status(401).json({ error: 'Token de autorização não fornecido' });
     }
