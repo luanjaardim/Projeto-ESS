@@ -20,7 +20,7 @@ And uma mensagem de "Pedido não cancelado: senha incorreta!" é retornada com i
 Scenario: Cancelamento mal sucedido (pedido já cancelado).
 Given existe um usuário com id "2", com senha "senha_userId2", com nome "luan", email "luan@cin.ufpe.br", cpf "03088762451" e endereço "CIn UFPE".
 And um pedido com número "110320", status "Cancelado", tempo "4:00" e preço "190.00" está registrado nos pedidos do usuario de id "2".
-When uma requisição de PUT com motivo "Surgiu um imprevisto" e senha "senha_userId3" é enviada para "/clients/2/orders/110320/cancellation".
+When uma requisição de PUT com motivo "Surgiu um imprevisto" e senha "senha_userId2" é enviada para "/clients/2/orders/110320/cancellation".
 Then o status da resposta deve ser "400".
 And uma mensagem de "Pedido não cancelado: pedido já cancelado!" é retornada com id de pedido "110320".
 

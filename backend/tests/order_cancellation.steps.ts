@@ -4,6 +4,7 @@ import app from '../src/app';
 import { prismaMock } from '../setupTests';
 import { Orders, Client } from '@prisma/client';
 import prisma from '../src/database';
+import bcrypt from 'bcrypt';
 
 const feature = loadFeature(
   'tests/features/order_cancellation.backend.feature'
@@ -32,9 +33,10 @@ defineFeature(feature, (test) => {
         cpf: string,
         address: string
       ) => {
+        const encryptedPassword = await bcrypt.hash(password, 10);
         const client_1 = {
           id: parseInt(clientId, 10),
-          password: password,
+          password: encryptedPassword,
           name: name,
           email: email,
           cpf: cpf,
