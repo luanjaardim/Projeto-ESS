@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import Button from "../../../shared/components/Button";
+import Button from "../../../shared/components/IconButton";
 
 describe("Button component", () => {
   it("renders the button", () => {
