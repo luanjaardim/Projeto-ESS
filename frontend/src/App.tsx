@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HomePage } from './app/Shopping_cart/pages/HomePage/index';
+import { Client_RegistrationPage } from './app/Client_Registration/pages/client_registration/index';
 
 const router = createBrowserRouter([
   {
     path: "*",
-    Component: HomePage,
+    Component: Client_RegistrationPage,
   },
 ]);
 

@@ -19,4 +19,19 @@ export default class APIService {
     getItems(restaurantId: number) {
         return this.api.get(`/restaurants/${restaurantId}/items`);
     }
+
+    getClients() {
+        return this.api.get('/clients');
+    }
+
+    createClients(){
+        return this.api.post('/clients');
+    }
+
+    deleteClients(){
+        return this.api.delete('/clients/${clientsid}');
+    }
+
+
+
 }
