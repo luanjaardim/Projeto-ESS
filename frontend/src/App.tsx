@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Landing from "./app/home/pages/Landing";
+import { HomePage } from './app/Shopping_cart/pages/HomePage/index';
 
 const router = createBrowserRouter([
   {
     path: "*",
-    Component: Landing,
+    Component: HomePage,
   },
 ]);
 
