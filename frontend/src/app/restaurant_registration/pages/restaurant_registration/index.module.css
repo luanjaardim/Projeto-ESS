@@ -4,7 +4,7 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: #eff1edff;
+  background-color: #ffffff;
 }
 
 .registrationForm {
@@ -13,7 +13,21 @@
   justify-content: space-evenly;
   width: 350px;
   height: 550px;
-  background-color: #eee5e5;
+  background-color: #eff1ed;
   border-radius: 50px;
   padding: 0 60px 0 60px;
+}
+
+.formField {
+  border: 0px;
+  border-radius: 10px;
+  height: 45px;
+  padding-left: 10px;
+  background-color: #d9d9d9;
+  transition: border-bottom 0.05s;
+}
+
+.formField:focus {
+  outline: none;
+  border-bottom: 3px solid #251fa5;
 }
