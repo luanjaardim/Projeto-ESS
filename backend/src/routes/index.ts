@@ -8,6 +8,7 @@ import RestaurantModel from '../models/RestaurantModel';
 import ShoppingCartController from '../controllers/ShoppingCartController';
 import ClientLoginController from '../controllers/ClientLoginController';
 import ClientController from '../controllers/ClientController';
+import ItemsController from '../controllers/ItemsController';
 
 const router = Router();
 
@@ -42,6 +43,7 @@ router.get('/restaurant/home', RestaurantLoginController.verifyToken, (req, res)
 });
 
 ShoppingCartController.setupRoutes(router);
+ItemsController.setupRoutes(router);
 
 router.get('/clients/:clientId/orders', OrderCancellationController.index);
 
