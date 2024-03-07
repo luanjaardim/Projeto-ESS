@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { Snackbar } from "@mui/material";
-import Slide, { SlideProps } from "@mui/material/Slide";
+import Slide from "@mui/material/Slide";
 import Alert from "@mui/material/Alert";
 
 import { FaCheck } from "react-icons/fa6";
