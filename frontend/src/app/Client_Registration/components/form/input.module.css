@@ -7,4 +7,17 @@
 .form_control label{
   margin-bottom: .6em;
   font-weight:bold;
+  
+}
+
+.form_control input{
+  padding: .7em;
+  border-radius: 4%;
+  border:none;
+  height: 40px; /* Defina a altura desejada aqui */
+  width: 280px;
+}
+
+.form_control input::placeholder{
+  color: #7b7b7b;
 }

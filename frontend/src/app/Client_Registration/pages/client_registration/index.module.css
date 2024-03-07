@@ -1,8 +1,7 @@
 .index_container{
-  width: 450px;
+  width: 50%;
   margin: 0 auto;
   padding: 3em;
-
 }
 
 .index_container h1{
@@ -12,4 +11,8 @@
 
 .index_container p {
   color:#7b7b7b;
+}
+
+body{
+  background-color: #FFF13E;
 }
