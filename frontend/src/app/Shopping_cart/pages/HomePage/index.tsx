@@ -4,6 +4,7 @@ import { RestaurantItemsList } from '../../components/RestaurantList/index';
 import { UserContext } from '../../../../Provider';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import './styles.css';
 
 export const HomePage = () => {
     const api = new APIService();
@@ -39,7 +40,7 @@ export const HomePage = () => {
 
     return (
         <div>
-            <h1>Restaurants</h1>
+            <h1 className="title">Restaurants</h1>
             {user === null ? (
                 <div>Not logged</div>
             ) : (
