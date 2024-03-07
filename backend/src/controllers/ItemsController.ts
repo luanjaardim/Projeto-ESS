@@ -13,11 +13,22 @@ export default class ItemsController {
     private static prefix = '/restaurants/:restaurant_id/items';
 
     static setupRoutes(router: Router) {
+        router.get('/items', this.indexAllItems)
         router.get(this.prefix, this.indexItems);
         router.post(this.prefix, this.insertItem);
         router.delete(this.prefix, this.removeItem);
         router.put(this.prefix, this.updateItem);
     }
+
+    private static async indexAllItems(req: Request, res: Response) {
+        try {
+            const items = await ItemsModel.indexAllItems();
+            res.status(200).json(items);
+        } catch (error: any) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
 
     private static async indexItems(req: Request, res: Response) {
         try {
