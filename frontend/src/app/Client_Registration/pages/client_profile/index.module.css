@@ -1,0 +1,26 @@
+body{
+  background-color: #FFF13E;
+}
+
+.index_container{
+  width: 32vw;
+  margin: 0 auto;
+  padding: 8em;
+  padding-left: 10em;
+  background-color: aliceblue;
+  height: 80vh;
+}
+
+.index_forms{
+  padding-top: 5vh;
+  padding-left: 0;
+}
+
+.botoes{
+  padding-top: 5vh;
+  padding-left: 2vw;
+}
+
+.btn{
+  padding-bottom: 2vh;
+}

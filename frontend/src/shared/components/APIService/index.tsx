@@ -24,12 +24,12 @@ export default class APIService {
         return this.api.get('/clients');
     }
 
-    createClients(){
-        return this.api.post('/clients');
+    createClients(clientData){
+        return this.api.post('/clients',clientData);
     }
 
-    deleteClients(){
-        return this.api.delete('/clients/${clientsid}');
+    deleteClients(clientsid: number){
+        return this.api.delete(`/clients/${clientsid}`);
     }
 
 
