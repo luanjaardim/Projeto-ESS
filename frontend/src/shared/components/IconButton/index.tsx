@@ -6,14 +6,28 @@ interface LogoButtonProps {
   text: string;
   color: string;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+  onClick?: () => void;
 }
 
-const IconButton = ({ icon: Icon, text, type, color }: LogoButtonProps) => {
+const IconButton = ({
+  icon: Icon,
+  text,
+  type,
+  color,
+  onClick,
+  disabled,
+}: LogoButtonProps) => {
   return (
     <button
       className={styles.button}
       type={type}
-      style={{ backgroundColor: color }}
+      style={{
+        backgroundColor: color,
+        cursor: disabled ? "not-allowed" : "pointer",
+      }}
+      onClick={onClick}
+      disabled={disabled}
     >
       <div className={styles.iconWrapper}>
         <Icon />
