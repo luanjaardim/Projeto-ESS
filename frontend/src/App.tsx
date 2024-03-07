@@ -4,7 +4,7 @@ import { InitialPage } from './app/Login/pages/InitialPage/index';
 
 const router = createBrowserRouter([
   {
-    path: "/clients/login",
+    path: "/client/home",
     Component: HomePage,
   },
   {
