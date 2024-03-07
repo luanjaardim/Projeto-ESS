@@ -1,14 +1,14 @@
-import { ButtonHTMLAttributes, SVGProps } from "react";
 import styles from "./index.module.css";
+import { IconType } from "react-icons";
 
 interface LogoButtonProps {
-  icon: string;
+  icon: IconType;
   text: string;
   color: string;
   type?: "button" | "submit" | "reset";
 }
 
-const IconButton = ({ icon, text, type, color }: LogoButtonProps) => {
+const IconButton = ({ icon: Icon, text, type, color }: LogoButtonProps) => {
   return (
     <button
       className={styles.button}
@@ -16,7 +16,7 @@ const IconButton = ({ icon, text, type, color }: LogoButtonProps) => {
       style={{ backgroundColor: color }}
     >
       <div className={styles.iconWrapper}>
-        <img src={icon} alt="Icon" className={styles.buttonIcon} />
+        <Icon />
       </div>
       <div className={styles.textWrapper}>
         <span>{text}</span>
