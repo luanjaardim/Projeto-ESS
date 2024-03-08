@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { UserContext } from '../../../../Provider';
 import APIService from '../../../../shared/components/APIService/index';
-import { Link } from 'react-router-dom';
+import './styles.css';
 
 const api = new APIService();
 
@@ -74,24 +74,32 @@ export const ShoppingCartPage = () => {
 
   return (
     <div>
-      <h1>Shopping Cart</h1>
+      <h1 className="shopping_cart_titl">Shopping Cart</h1>
       <ul>
         {cart.map((item: any) => (
-          <li key={item.id}>
-            <h2>{item.name}</h2>
-            <p>{(item.price * item.quantity).toFixed(2)} $</p>
-            <p>{item.quantity}</p>
-            <button onClick={() => removeFromCart(user, item, {cart, setCartContext})}>Remove from cart</button>
-            <button onClick={() => increaseQuantity(user, item, {cart, setCartContext})}> + </button>
-            <button onClick={() => decreaseQuantity(user, item, {cart, setCartContext})}> - </button>
+          <li key={item.id} className="list_item_shopping_cart">
+            <div className="container_buttons">
+              <button className="button_remove"
+                      onClick={() => removeFromCart(user, item, {cart, setCartContext})}>Remove from cart</button>
+              <div className="container_plus_and_minus">
+                <button className="button"
+                        onClick={() => increaseQuantity(user, item, {cart, setCartContext})}> + </button>
+                <button className="button"
+                        onClick={() => decreaseQuantity(user, item, {cart, setCartContext})}> - </button>
+              </div>
+            </div>
+            <div>
+              <h2>{item.name} x {item.quantity}</h2>
+              <p>{(item.price * item.quantity).toFixed(2)} $</p>
+            </div>
           </li>
         ))}
       {cart.length === 0 ?
-        <h2>Your cart is empty</h2> :
-        <button onClick={() => finishOrder(user, {cart, setCartContext})}>Finish the Order</button>
+        <h3>Your cart is empty</h3> :
+        <button className="button_finish_order"
+                onClick={() => finishOrder(user, {cart, setCartContext})}>Finish the Order</button>
       }
       </ul>
-      <Link to="/client/home">Back to home</Link>
     </div>
   );
 };
