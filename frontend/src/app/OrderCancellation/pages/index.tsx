@@ -1,15 +1,21 @@
+
 import {useState, useEffect, useContext} from 'react';
 import './style.css';
 import APIService from '../../../shared/components/APIService';
 import { UserContext } from '../../../Provider';
 import { Navigate, useNavigate } from 'react-router-dom';
-//import { OrderItemsList } from '../../components/RestaurantList/index';
 
 
 export const OrdersPage = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [orders, setOrders] = useState([]);;
-  const { user, setUserContext } = useContext(UserContext);
+  const [items, setItems] = useState([]);
+  const { user, setUserContext } = useContext(UserContext); 
+  const [count, setCounter] = useState(0);
+
+  const setCountr = () => {
+    setCounter(count+1);
+  }
 
   const openModal = () => {
     setModalOpen(true);
@@ -21,26 +27,25 @@ export const OrdersPage = () => {
 
   const navigate = useNavigate();
   const goBackToHome = () => {
-    navigate('/home');
+    navigate('/client/home');
   };
 
   const api = new APIService();
 
   useEffect(() => {
-    // Função para obter os pedidos da API
     const fetchOrders = async () => {
       try {
-        const response = await api.getOrders(user?.id, user?.password);
+        var response = await api.getOrders(user?.id, user?.password);
         setOrders(response.data); // Define os pedidos no estado
+        response = await api.getAllItems();
+        setItems(response.data);
       } catch (error) {
         console.error('Erro ao obter os pedidos:', error);
       }
       setUserContext({ id: 10349, password: "senha_userId10349", nome: "Hugo" });
     };
-
-    // Chama a função para obter os pedidos da API
     fetchOrders();
-  }, []); // Executa somente uma vez após a montagem do componente
+  }, [count]);
 
   return (
     <div className="orders-page">
@@ -50,7 +55,7 @@ export const OrdersPage = () => {
         <div className="user-info">
           <div className="user-name">{user?.nome}</div>
           <img src="src/app/OrderCancellation/pages/mobolado.png" alt="Ícone do usuário" className="user-icon" />
-          <button className="profile-button"></button>
+          <button className="profile-button" onClick={setCountr}></button>
         </div>
       </header>
       <main className="order-list">
@@ -59,17 +64,27 @@ export const OrdersPage = () => {
           <div className="order" key={index}>
             <div className="order-label">Pedido #{order.id}</div> {/* Rótulo do pedido */}
             <div className="order-details">
-            {order.products.map((products, index) => (
-            <div className="item-and-price" key={index}>
-              <div className="item">{products.itemId}</div>
-              <div className="price">{products.quantity} X R$ 10.00</div>
-            </div>
-            ))}
+            {order.products.map((product, index) => {
+              const item = items.find((item) => item.id === product.itemId);
+              return (<div className="item-and-price" key={index}>
+                <div className="item">{item?.name}</div>
+                <div className="price">{product.quantity} X R$ {item?.price.toFixed(2)}</div>
+              </div>
+            )
+            })}
               <div className="total">Total: R${order.price.toFixed(2)}</div>
             </div>
             <div className="order-actions">
               <div className="action-left">
-                <div className="status">Status: {order.status}</div>
+                <div className="status">
+                  Status: {order.status === "Cancelado" ? (
+                    <span className="status-cancelado">Cancelado</span>
+                  ) : order.status === "Aceito" ? (
+                    <span className="status-aceito">Aceito</span>
+                  ) : (
+                    <span className="status-pendente">{order.status}</span>
+                  )}
+                </div>
                 <div className="time">Tempo estimado: {order.time}</div>
               </div>
               <button className="cancel-button" onClick={openModal}> Cancelar <br /> Pedido
