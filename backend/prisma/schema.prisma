@@ -11,41 +11,59 @@ datasource db {
 }
 
 model Restaurant {
-  id        Int    @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   name      String
-  cnpj      String @unique
-  email     String @unique
+  cnpj      String      @unique
+  email     String      @unique
   password  String
 
   items Item[]
 }
 
 model Item {
-  id Int @id @default(autoincrement())
-
-  //every Item must be linked to a restaurant
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  id           Int           @id @default(autoincrement())
+  name         String
+  price        Float
+  restaurant   Restaurant    @relation(fields: [restaurantId], references: [id])
   restaurantId Int
-  Order        Order[]
+
+  OrderItem    OrderItem[]
 }
 
 model Client {
-  id Int @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
+  password    String
+  name        String
+  email       String    @unique
+  cpf         String    @unique
+  address     String
 
-  //more infos about the client here
-  Order Order[]
+  Orders      Orders[]
 }
 
-//order table, used for the shopping_cart feature
-//stores every link of a Client and a Item
-model Order {
-  client   Client @relation(fields: [clientId], references: [id])
-  clientId Int // relation scalar field (used in the `@relation` attribute above)
-  item     Item   @relation(fields: [itemId], references: [id])
-  itemId   Int // relation scalar field (used in the `@relation` attribute above)
+model OrderItem {
+  item     Item         @relation(fields: [itemId], references: [id])
+  itemId   Int 
+  order    Orders       @relation(fields: [orderId], references: [id])
+  orderId  Int
+  quantity Int          @default(1)
 
-  //the number of items added on the cart
-  quantity Int @default(1)
+  @@id([itemId, orderId])
+}
 
-  @@id([itemId, clientId])
+model Orders {
+  id          Int       @id @default(autoincrement())
+  client      Client    @relation(fields: [clientId], references: [id])
+  clientId    Int 
+  status      String    @default("Nao finalizado")
+  time        String    @default("00:00")
+  price       Float     @default(0.0)
+
+  products    OrderItem[]
+}
+
+model CancelledOrders {
+  orderId    Int        @id
+  clientId   Int  
+  reason     String
 }
