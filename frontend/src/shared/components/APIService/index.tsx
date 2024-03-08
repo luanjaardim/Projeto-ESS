@@ -19,4 +19,8 @@ export default class APIService {
     getItems(restaurantId: number) {
         return this.api.get(`/restaurants/${restaurantId}/items`);
     }
+
+    getOrders(clientId: number, password: String) {
+        return this.api.post(`/clients/${clientId}/orders`, {password: password},);
+    }
 }
