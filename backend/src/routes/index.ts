@@ -38,7 +38,7 @@ router.put(
 
 router.post('/restaurant/login', RestaurantLoginController.login);
 
-router.get('/restaurant/home', RestaurantLoginController.verifyToken, (req, res) => {
+router.post('/restaurant/home', RestaurantLoginController.verifyToken, (req, res) => {
   res.status(200).json({ message: 'Acesso concedido.'}); //, userId: req.userId 
 });
 
@@ -54,7 +54,7 @@ router.put(
 
 router.post('/clients/login', ClientLoginController.login);
 
-router.get('/clients/home', ClientLoginController.verifyToken, (req, res) => {
+router.post('/clients/home', ClientLoginController.verifyToken, (req, res) => {
   res.status(200).json({ message: 'Acesso concedido.'}); //, userId: req.userId 
 });
 
