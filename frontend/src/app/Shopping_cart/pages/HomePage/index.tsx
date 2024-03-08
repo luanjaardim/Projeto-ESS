@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react';
 import { RestaurantItemsList } from '../../components/RestaurantList/index';
 import { UserContext } from '../../../../Provider';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { ShoppingCartPage } from '../ShoppingCartPage/index';
 import './styles.css';
 
 export const HomePage = () => {
     const api = new APIService();
     const [restaurants, setRestaurants] = useState([]);
     const { user, setUserContext, setCartContext } = useContext(UserContext);
+    const [showCart, setShowCart] = useState(false);
 
     useEffect(() => {
         const fetchRestaurants = async () => {
@@ -23,8 +24,8 @@ export const HomePage = () => {
         };
         const getCart = async () => {
             if(user !== null) {
-                const sp = await api.getShoppingCart(user.id);
-                setCartContext(sp);
+                const shoppingCart = await api.getShoppingCart(user.id);
+                setCartContext(shoppingCart);
             }
 
         };
@@ -40,22 +41,35 @@ export const HomePage = () => {
 
     return (
         <div>
-            <h1 className="title">Restaurants</h1>
-            {user === null ? (
-                <div>Not logged</div>
-            ) : (
-                <ul>
-                    {
-                        restaurants.length > 0 ?
-                        restaurants.map((restaurant) => (
-                        <li key={restaurant.id}>
-                            <RestaurantItemsList restaurant={restaurant} />
-                        </li>
-                        )) : <h2>No restaurants found</h2>
-                    }
-                </ul>
-            )}
-        <Link to="/shopping_cart">Shopping Cart</Link>
+            <div className="top_container">
+                <h1 className="title">Restaurants</h1>
+                <div className="top_inner_container">
+                    <button className="top_button">OrderCancelation</button>
+                    <button className="top_button"
+                            onClick={() => {setShowCart(!showCart)}}> Shopping_cart</button>
+                </div>
+            </div>
+            <div className="restaurants_and_toggle_shopping_cart">
+                {user === null ? (
+                    <div>Not logged</div>
+                ) : (
+                    <ul>
+                        {
+                            restaurants.length > 0 ?
+                            restaurants.map((restaurant) => (
+                            <li key={restaurant.id}>
+                                <RestaurantItemsList restaurant={restaurant} />
+                            </li>
+                            )) : <h2>No restaurants found</h2>
+                        }
+                    </ul>
+                )}
+                { showCart ?
+                    (<div className="shopping_cart">
+                        <ShoppingCartPage />
+                     </div>) : null
+                }
+            </div>
         </div>
     );
 };
