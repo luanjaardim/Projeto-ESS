@@ -1,5 +1,5 @@
 import { UserContext } from '../../../../Provider';
-import { addToCart } from '../../pages/ShoppingCartPage/index';
+import { addToCart } from '../ShoppingCart/index';
 import { useContext } from 'react';
 import './styles.css';
 

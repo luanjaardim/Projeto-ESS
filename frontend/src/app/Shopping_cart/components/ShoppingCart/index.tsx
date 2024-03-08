@@ -61,7 +61,7 @@ const finishOrder = async (user: any, context: any) => {
   }
 };
 
-export const ShoppingCartPage = () => {
+export const ShoppingCart = () => {
   const {user, cart, setCartContext} = useContext(UserContext);
   useEffect(() => {
     const getCart = async () => {

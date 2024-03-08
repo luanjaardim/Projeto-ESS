@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { RestaurantItemsList } from '../../components/RestaurantList/index';
 import { UserContext } from '../../../../Provider';
 import { useContext } from 'react';
-import { ShoppingCartPage } from '../ShoppingCartPage/index';
+import { ShoppingCart } from '../../components/ShoppingCart/index';
 import './styles.css';
 
 export const HomePage = () => {
@@ -66,7 +66,7 @@ export const HomePage = () => {
                 )}
                 { showCart ?
                     (<div className="shopping_cart">
-                        <ShoppingCartPage />
+                        <ShoppingCart />
                      </div>) : null
                 }
             </div>
