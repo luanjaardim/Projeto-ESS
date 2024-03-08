@@ -162,6 +162,27 @@
     font-weight: bold;
   }
 
+  .status-cancelado {
+    margin-bottom: 7%;
+    color: rgb(166, 3, 3);
+    padding: 1%;
+    font-weight: bold;
+  }
+
+  .status-aceito {
+    margin-bottom: 7%;
+    color: rgb(8, 104, 8);
+    padding: 1%;
+    font-weight: bold;
+  }
+
+  .status-pendente {
+    margin-bottom: 7%;
+    color: rgb(220, 220, 34);
+    padding: 1%;
+    font-weight: bold;
+  }
+  
   .time {
     padding: 1%;
     font-weight: bold;
