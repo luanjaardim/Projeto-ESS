@@ -1,7 +1,5 @@
-/* @src/components/Modal.module.css */
-
 .darkBG {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
   width: 100vw;
   height: 100vh;
   z-index: 0;
@@ -19,17 +17,14 @@
 }
 
 .modal {
-  width: 250px;
-  height: 170px;
+  width: 340px;
+  height: 220px;
   background: white;
   color: white;
   z-index: 10;
   border-radius: 16px;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
   padding-top: 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .modalHeader {
@@ -74,7 +69,7 @@
   transform: translate(-4px, 4px);
 }
 
-.deleteBtn {
+.optionBtn {
   margin-top: 10px;
   cursor: pointer;
   font-weight: 500;
@@ -83,12 +78,10 @@
   font-size: 0.8rem;
   border: none;
   color: #fff;
-  background: #54b544;
+  background: #ff3e4e;
   transition: all 0.25s ease;
 }
 
-.deleteBtn:hover {
-  /* box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.6); */
+.optionBtn:hover {
   transform: scale(1.03);
-  /* background: #54b544; */
 }

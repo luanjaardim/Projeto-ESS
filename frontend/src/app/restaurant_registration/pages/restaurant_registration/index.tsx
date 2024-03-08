@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { Helmet } from "react-helmet";
+
 import { Snackbar } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import Alert from "@mui/material/Alert";
@@ -8,8 +10,8 @@ import { FaCheck } from "react-icons/fa6";
 
 import styles from "./index.module.css";
 import IconButton from "../../../../shared/components/IconButton";
-// import CheckIcon from "../../../../shared/assets/whiteCheck.svg";
-import Modal from "../../components/LoginSucceededModal";
+import { FiCheckCircle } from "react-icons/fi";
+import Modal from "../../components/AlertModal";
 
 const RestaurantRegistration = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,14 +23,30 @@ const RestaurantRegistration = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Cadastrar restaurante - iBreno ;)</title>
+      </Helmet>
       <h1 className={styles.title}>Cadastre seu restaurante</h1>
       <div className={styles.pageWrapper}>
-        {isModalOpen && <Modal setIsOpen={setIsModalOpen} />}
+        {isModalOpen && (
+          <Modal
+            title="Cadastro realizado com sucesso"
+            setIsOpen={setIsModalOpen}
+            modalBody={FiCheckCircle}
+            bodyStyle={{ color: "#54b544", width: "50px", height: "50px" }}
+            leftButton={{
+              color: "white",
+              backgroundColor: "#54b544",
+              text: "Fazer login",
+              callback: () => {},
+            }}
+          />
+        )}
         <form
           action=""
           className={styles.registrationForm}
           onSubmit={(e) => {
-            setIsSnackbarOpen(true);
+            setIsModalOpen(true);
             e.preventDefault();
           }}
         >

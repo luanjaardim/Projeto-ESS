@@ -1,21 +1,49 @@
 import { useState } from "react";
 
-import IconButton from "../../../../shared/components/IconButton";
-import styles from "./index.module.css";
+import { Helmet } from "react-helmet";
 
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 
+import IconButton from "../../../../shared/components/IconButton";
+import styles from "./index.module.css";
+import Modal from "../../components/AlertModal";
+
 const RestaurantProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleToggleEdit = () => {
     setIsEditing(!isEditing);
   };
 
+  const handleConfirmDelete = () => {};
+
   return (
     <>
+      <Helmet>
+        <title>Meu perfil - iBreno ;)</title>
+      </Helmet>
+      {isModalOpen && (
+        <Modal
+          setIsOpen={setIsModalOpen}
+          title="Excluir restaurante"
+          modalBody="Tem certeza que deseja excluir o restaurante? Todos os dados cadastrados serão excluídos permanentemente"
+          leftButton={{
+            backgroundColor: "rgb(0,0,0,0.2)",
+            color: "black",
+            text: "Cancelar",
+            callback: handleConfirmDelete,
+          }}
+          rightButton={{
+            backgroundColor: "#FD3939",
+            color: "white",
+            text: "Excluir",
+            callback: handleConfirmDelete,
+          }}
+        />
+      )}
       <h1 className={styles.title}>Meu perfil</h1>
       <div className={styles.pageWrapper}>
         <div className={styles.profileDataContainer}>
@@ -55,7 +83,7 @@ const RestaurantProfilePage = () => {
             color={isEditing ? "rgb(0,0,0,0.2)" : "#FD3939"}
             text="Excluir restaurante"
             type="button"
-            onClick={() => window.alert("Excluir restaurante")}
+            onClick={() => setIsModalOpen(true)}
             disabled={isEditing}
           />
         </div>
