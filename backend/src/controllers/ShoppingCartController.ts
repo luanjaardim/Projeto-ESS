@@ -11,6 +11,7 @@ export default class ShoppingCartController {
         router.get(this.prefix, this.getUserOrderItems);
         router.delete(this.prefix, this.removeOrderItem);
         router.put(this.prefix, this.updateOrderItem);
+        router.get(this.prefix + '/orderId', this.getOrderIdOfShoppingCart);
     }
 
     private static async insertOrderItem(req: Request, res: Response) {
@@ -58,5 +59,14 @@ export default class ShoppingCartController {
 
         const answer = await ShoppingCartService.updateOrderItem(order);
         return res.status(answer[0]).json({ message: answer[1] });
+    }
+
+    private static async getOrderIdOfShoppingCart(req: Request, res: Response) {
+        const clientId = await ShoppingCartService.getClientId(req.params.user_login);
+        if (clientId instanceof Error) {
+            return res.status(400).json({ message: clientId.message });
+        }
+        const orderId = await ShoppingCartModel.getOrderIdOfShoppingCart(clientId);
+        return res.status(200).json({ orderId });
     }
 }

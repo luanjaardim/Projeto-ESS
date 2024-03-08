@@ -4,7 +4,7 @@ import { OrdersPage } from './app/OrderCancellation/pages/index';
 
 const router = createBrowserRouter([
   {
-    path: "*",
+    path: "/client/home",
     Component: HomePage,
   },
   {
