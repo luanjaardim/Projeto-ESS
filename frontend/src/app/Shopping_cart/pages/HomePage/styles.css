@@ -20,6 +20,9 @@
 }
 
 .top_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   margin-top: 10px;
   margin-bottom: 10px;

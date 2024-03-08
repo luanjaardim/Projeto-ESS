@@ -40,13 +40,19 @@ export const HomePage = () => {
     }, []);
 
     return (
-        <div>
+        <div style={{background: '#fffaba'}}>
             <div className="top_container">
                 <h1 className="title">Restaurants</h1>
                 <div className="top_inner_container">
-                    <button className="top_button">OrderCancelation</button>
+                    <button className="top_button">
+                            <a href='../orders'>
+                                Pedidos Finalizados </a>
+                    </button>
                     <button className="top_button"
-                            onClick={() => {setShowCart(!showCart)}}> Shopping_cart</button>
+                            onClick={() => {setShowCart(!showCart)}}>
+                        <img src="../src/app/Shopping_cart/assets/icons/cart.png"
+                             alt="Shopping Cart" style={{width:'30px', height:'30px'}}/>
+                    </button>
                 </div>
             </div>
             <div className="restaurants_and_toggle_shopping_cart">
