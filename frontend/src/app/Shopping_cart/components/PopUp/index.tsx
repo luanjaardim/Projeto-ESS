@@ -16,9 +16,9 @@ export const PopUp = ({ title, text, onReject, onAccept }) => {
                     <p className="dialog-content">{text}</p>
                 </div>
                 <div className="button_container">
-                    <button className="option-button" style={{background: '#FD3939'}}
+                    <button className="option-button" style={{background: '#FD3939'}} id="no_button"
                             onClick={onReject}>No</button>
-                    <button className="option-button" style={{background: '#54B544'}}
+                    <button className="option-button" style={{background: '#54B544'}} id="yes_button"
                             onClick={onAccept} onKeyDown={handleKeyDown} autoFocus>Yes</button>
                 </div>
                 <button className="popup-close" style={{background: '#FD3939', color: '#FD3939'}}
