@@ -50,7 +50,7 @@ export const LoginClientPage = () => {
     <div style={{backgroundColor:"#fff13e"}}>
       <div style={{backgroundColor:"#eff1ed"}}>
           <Link to = '/*'>
-            <button type="button" >Voltar</button>
+            <button className="backButton">Voltar</button>
           </Link>
       <h1 className="titleLogin">Login Cliente</h1>
       </div>
@@ -61,6 +61,7 @@ export const LoginClientPage = () => {
             type="email"
             placeholder="E-mail"
             value={email}
+            className="formFieldLogin"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -70,14 +71,15 @@ export const LoginClientPage = () => {
             type="password"
             placeholder="Senha"
             value={password}
+            className="formFieldLogin"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <div>
+        <div className="containerButtonForm">
           <button type="button" onClick={handleLogin}>Login</button>
           <Link to = '/recover/client'>
-            <button type="button" >Esqueci a Senha</button>
+            <button className="recPasswordButton">Esqueci a Senha</button>
           </Link>
         </div>
       </form>
