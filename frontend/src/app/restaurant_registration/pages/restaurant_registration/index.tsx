@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Snackbar } from "@mui/material";
 import Slide from "@mui/material/Slide";
@@ -33,6 +34,7 @@ const RestaurantRegistration = () => {
   const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isCNPJValid, setIsCNPJValid] = useState(true);
+  const navigate = useNavigate();
 
   const handleSnackbarClose = () => {
     setIsSnackbarOpen(false);
@@ -94,7 +96,9 @@ const RestaurantRegistration = () => {
               color: "white",
               backgroundColor: "#54b544",
               text: "Fazer login",
-              callback: () => {},
+              callback: () => {
+                navigate("/restaurants/login");
+              },
             }}
           />
         )}
