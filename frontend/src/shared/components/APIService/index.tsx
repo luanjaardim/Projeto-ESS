@@ -73,4 +73,20 @@ export default class APIService {
     async cancelOrder(clientId: number, orderId: number, password: String, reason: String) {
         return this.api.put(`/clients/${clientId}/orders/${orderId}/cancellation`, {password: password, reason: reason}); 
     }
+
+    postLoginClient(email: String, password: String) {
+        return this.api.post('/clients/login', {email: email, password: password});
+    }
+
+    postTokenClient(token: String) {
+        return this.api.post('/clients/home', {header: 'Bearer ' + token});
+    }
+
+    postLoginRestaurant(email: String, password: String) {
+        return this.api.post('/restaurant/login', {email: email, password: password});
+    }
+
+    postTokenRestaurant(token: String) {
+        return this.api.post('/restaurant/home', {header: 'Bearer ' + token});
+    }
 }
