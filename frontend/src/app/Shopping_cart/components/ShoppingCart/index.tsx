@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../../../Provider';
+import { UserContext, Item } from '../../../../Provider';
 import APIService from '../../../../shared/components/APIService/index';
 import { PopUp } from '../PopUp/index';
 import { transformIntoId } from '../../pages/HomePage/index';
@@ -76,13 +76,19 @@ export const ShoppingCart = () => {
   const [showPopUpDeleteItem, setShowPopUpDeleteItem] = useState(false);
   const [showPopUpFinishOrder, setShowPopUpFinishOrder] = useState(false);
   const [showPopUpClearCart, setShowPopUpClearCart] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState({id: 0, name: '', price: 0, quantity: 0, restaurantName: ''});
 
-  const shoppingCartItem = (item: any, id: string) => (
+  const tryDeleteItem = (item: Item) => {
+    setItemToDelete(item);
+    setShowPopUpDeleteItem(true);
+  };
+
+  const shoppingCartItem = (item: Item, parentId: string, id: string) => (
     <div>
       <li key={item.id} className="list_item_shopping_cart" style={{background: '#f5f5f0'}}>
-        <div className="container_buttons" id={id}>
+        <div className="container_buttons" id={parentId}>
           <button className="button_remove" style={{background: '#9a9c98'}} id={id + '_remove'}
-                  onClick={() => setShowPopUpDeleteItem(true)}>
+                  onClick={() => tryDeleteItem(item)}>
             <img src="../src/app/Shopping_cart/assets/icons/trash.png"
                 alt='Remove from Cart' className='image_button_remove'/>
           </button>
@@ -98,14 +104,6 @@ export const ShoppingCart = () => {
           <p>{(item.price * item.quantity).toFixed(2)} $</p>
         </div>
       </li>
-      {showPopUpDeleteItem && (
-        <PopUp
-          title="Remove from Cart?"
-          text="Do you want to remove this item from your cart?"
-          onReject={() => { setShowPopUpDeleteItem(false); }}
-          onAccept={() => { removeFromCart(user, item, {cart, setCartContext}); setShowPopUpDeleteItem(false); }}
-          />)
-      }
     </div>
   )
 
@@ -122,7 +120,8 @@ export const ShoppingCart = () => {
     <div className="container" style={{background: '#dee0dc'}}>
       <h1 className="shopping_cart_title" id="shopping_cart">Shopping Cart</h1>
       <ul>
-        {cart.map((item: any) => shoppingCartItem(item,
+        {cart.map((item: Item) => shoppingCartItem(item,
+                                  transformIntoId(item.restaurantName+' '+item.name, false),
                                   transformIntoId(item.restaurantName+' '+item.name+' '+String(item.price)+' '+String(item.quantity), false)
                                 ))}
       {(cart.length === 0 ?
@@ -149,6 +148,18 @@ export const ShoppingCart = () => {
           text="Do you want to clear your cart?"
           onReject={() => { setShowPopUpClearCart(false); }}
           onAccept={() => { eraseCart(user, {cart, setCartContext}); setShowPopUpClearCart(false); }}
+          />)
+      }
+      {showPopUpDeleteItem && (
+        <PopUp
+          title="Remove from Cart?"
+          text="Do you want to remove this item from your cart?"
+          onReject={() => { setShowPopUpDeleteItem(false); }}
+          onAccept={() => {
+            //remove the las item setted as itemToDelete
+            removeFromCart(user, itemToDelete, {cart, setCartContext});
+            setShowPopUpDeleteItem(false);
+          }}
           />)
       }
     </div>
