@@ -69,4 +69,21 @@ export default class APIService {
     getOrders(clientId: number, password: String) {
         return this.api.post(`/clients/${clientId}/orders`, {password: password},);
     }
+
+
+    postLoginClient(email: String, password: String) {
+        return this.api.post('/clients/login', {email: email, password: password});
+    }
+
+    postTokenClient(token: String) {
+        return this.api.post('/clients/home', {header: 'Bearer ' + token});
+    }
+
+    postLoginRestaurant(email: String, password: String) {
+        return this.api.post('/restaurant/login', {email: email, password: password});
+    }
+
+    postTokenRestaurant(token: String) {
+        return this.api.post('/restaurant/home', {header: 'Bearer ' + token});
+    }
 }
