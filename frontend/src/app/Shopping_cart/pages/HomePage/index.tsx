@@ -6,6 +6,10 @@ import { useContext } from 'react';
 import { ShoppingCart } from '../../components/ShoppingCart/index';
 import './styles.css';
 
+export const transformIntoId = (name: string, with_hash: boolean) => {
+    return (with_hash ? '#' : '') + name.toLowerCase().replace(/ /g, '_');
+}
+
 export const HomePage = () => {
     const api = new APIService();
     const [restaurants, setRestaurants] = useState([]);
@@ -42,13 +46,13 @@ export const HomePage = () => {
     return (
         <div style={{background: '#fffaba'}}>
             <div className="top_container">
-                <h1 className="title">Restaurants</h1>
+                <h1 className="title" id="restaurants">Restaurants</h1>
                 <div className="top_inner_container">
                     <button className="top_button">
                             <a href='../order'>
                                 Pedidos Finalizados </a>
                     </button>
-                    <button className="top_button"
+                    <button className="top_button" id="shopping_cart_button"
                             onClick={() => {setShowCart(!showCart)}}>
                         <img src="../src/app/Shopping_cart/assets/icons/cart.png"
                              alt="Shopping Cart" style={{width:'30px', height:'30px'}}/>
