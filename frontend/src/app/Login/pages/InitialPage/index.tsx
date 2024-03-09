@@ -16,12 +16,12 @@ export const InitialPage = () => {
           <button className="button">Login Cliente</button>
         </Link>
 
-        <Link to = '/clients/registration'>
-          <button className="button">Cadastro Cliente</button>
-        </Link>
-
         <Link to = '/restaurants/login'>
           <button className="button">Login Restaurante</button>
+        </Link>
+
+        <Link to = '/clients/registration'>
+          <button className="button">Cadastro Cliente</button>
         </Link>
 
         <Link to = '/restaurants/registration'>
