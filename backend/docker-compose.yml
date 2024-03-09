@@ -8,6 +8,7 @@ services:
       ENV: DEV
       PORT: 5001
       DATABASE_URL: 'mysql://root:admin@db:3306/ibreno_db'
+      JWT_SECRET: 'chave_secreta_token'
     volumes:
       - .:/app
       - /app/node_modules
