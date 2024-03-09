@@ -8,6 +8,7 @@ import RestaurantModel from '../models/RestaurantModel';
 import ShoppingCartController from '../controllers/ShoppingCartController';
 import ClientLoginController from '../controllers/ClientLoginController';
 import ClientController from '../controllers/ClientController';
+import RecoverPasswordController from '../controllers/RecoverPasswordController';
 
 const router = Router();
 
@@ -71,5 +72,7 @@ router.put(
   ClientController.validate('update'),
   ClientController.update
 );
+
+router.post('/restaurants/recover', RecoverPasswordController.recoverPassword)
 
 export default router;
