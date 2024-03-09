@@ -69,4 +69,8 @@ export default class APIService {
     async getOrders(clientId: number, password: String) {
         return this.api.post(`/clients/${clientId}/orders`, {password: password},);
     }
+
+    async cancelOrder(clientId: number, orderId: number, password: String, reason: String) {
+        return this.api.put(`/clients/${clientId}/orders/${orderId}/cancellation`, {password: password, reason: reason}); 
+    }
 }
