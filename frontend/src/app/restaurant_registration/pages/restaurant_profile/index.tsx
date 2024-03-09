@@ -15,12 +15,13 @@ import styles from "./index.module.css";
 import Modal from "../../components/AlertModal";
 
 import APIService from "../../../../shared/components/APIService";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedData, setEditedData] = useState({});
-  const { user, setUserContext } = useContext(UserContext);
+  const { user, setUserContext } = useContext<any>(UserContext);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isCNPJValid, setIsCNPJValid] = useState(true);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
@@ -30,8 +31,8 @@ const RestaurantProfilePage = () => {
   useEffect(() => {
     //TODO: Remove this mock
     setUserContext({
-      id: "5",
-      name: "Quentinhas",
+      id: "7",
+      name: "Luquinhas",
       email: "quentinhas@gmail.com",
       cnpj: "24.134.488/0001-08",
     });
@@ -57,12 +58,15 @@ const RestaurantProfilePage = () => {
     setIsEditing(!isEditing);
   };
 
+  const navigate = useNavigate();
+
   const handleConfirmDelete = () => {
     console.log("Excluir restaurante");
     console.log(user);
     if (user) {
       api.deleteRestaurant(parseInt(user.id)).then((response) => {
         console.log(response);
+        navigate("/restaurant/registration");
       });
     }
   };
