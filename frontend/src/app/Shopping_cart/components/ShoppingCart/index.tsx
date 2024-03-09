@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../../Provider';
 import APIService from '../../../../shared/components/APIService/index';
 import { PopUp } from '../PopUp/index';
+import { transformIntoId } from '../../pages/HomePage/index';
 import './styles.css';
 
 const api = new APIService();
@@ -11,7 +12,7 @@ export const addToCart = async (user: any, item: any, context: any) => {
   if (message === 'Item added to cart') {
     const items = (await api.getAllItems()).data;
     const itemToAdd = items.find((i) => i.id === item.id)
-    context.setCartContext([...context.cart, {id: item.id, name: itemToAdd.name, price: itemToAdd.price, quantity: 1}]);
+    context.setCartContext([...context.cart, {id: item.id, name: itemToAdd.name, price: itemToAdd.price, quantity: 1, restaurantName: context.restaurantName}]);
     console.log('Item added to cart');
   } else {
     console.error('Error adding item to cart');
@@ -62,10 +63,51 @@ const finishOrder = async (user: any, context: any) => {
   }
 };
 
+const eraseCart = (user: any, context: any) => {
+  const { cart, setCartContext } = context;
+  cart.forEach(async (item: any) => {
+    await api.removeItemFromCart(user.id, item.id);
+  });
+  setCartContext([]);
+};
+
 export const ShoppingCart = () => {
   const {user, cart, setCartContext} = useContext(UserContext);
   const [showPopUpDeleteItem, setShowPopUpDeleteItem] = useState(false);
   const [showPopUpFinishOrder, setShowPopUpFinishOrder] = useState(false);
+  const [showPopUpClearCart, setShowPopUpClearCart] = useState(false);
+
+  const shoppingCartItem = (item: any, id: string) => (
+    <div>
+      <li key={item.id} className="list_item_shopping_cart" style={{background: '#f5f5f0'}}>
+        <div className="container_buttons" id={id}>
+          <button className="button_remove" style={{background: '#9a9c98'}} id={id + '_remove'}
+                  onClick={() => setShowPopUpDeleteItem(true)}>
+            <img src="../src/app/Shopping_cart/assets/icons/trash.png"
+                alt='Remove from Cart' className='image_button_remove'/>
+          </button>
+          <div className="container_plus_and_minus">
+            <button className="button" style={{background: '#54B544'}} id={id + '_plus'}
+                    onClick={() => increaseQuantity(user, item, {cart, setCartContext})}> + </button>
+            <button className="button" style={{background: '#FD3939'}} id={id + '_minus'}
+                    onClick={() => decreaseQuantity(user, item, {cart, setCartContext})}> - </button>
+          </div>
+        </div>
+        <div>
+          <h2>{item.name} x {item.quantity}</h2>
+          <p>{(item.price * item.quantity).toFixed(2)} $</p>
+        </div>
+      </li>
+      {showPopUpDeleteItem && (
+        <PopUp
+          title="Remove from Cart?"
+          text="Do you want to remove this item from your cart?"
+          onReject={() => { setShowPopUpDeleteItem(false); }}
+          onAccept={() => { removeFromCart(user, item, {cart, setCartContext}); setShowPopUpDeleteItem(false); }}
+          />)
+      }
+    </div>
+  )
 
   useEffect(() => {
     const getCart = async () => {
@@ -78,43 +120,19 @@ export const ShoppingCart = () => {
 
   return (
     <div className="container" style={{background: '#dee0dc'}}>
-      <h1 className="shopping_cart_title">Shopping Cart</h1>
+      <h1 className="shopping_cart_title" id="shopping_cart">Shopping Cart</h1>
       <ul>
-        {cart.map((item: any) => (
-          <div>
-            <li key={item.id} className="list_item_shopping_cart" style={{background: '#f5f5f0'}}>
-              <div className="container_buttons">
-                <button className="button_remove" style={{background: '#9a9c98'}}
-                        onClick={() => setShowPopUpDeleteItem(true)}>
-                  <img src="../src/app/Shopping_cart/assets/icons/trash.png"
-                      alt='Remove from Cart' className='image_button_remove'/>
-                </button>
-                <div className="container_plus_and_minus">
-                  <button className="button" style={{background: '#54B544'}}
-                          onClick={() => increaseQuantity(user, item, {cart, setCartContext})}> + </button>
-                  <button className="button" style={{background: '#FD3939'}}
-                          onClick={() => decreaseQuantity(user, item, {cart, setCartContext})}> - </button>
-                </div>
-              </div>
-              <div>
-                <h2>{item.name} x {item.quantity}</h2>
-                <p>{(item.price * item.quantity).toFixed(2)} $</p>
-              </div>
-            </li>
-            {showPopUpDeleteItem && (
-              <PopUp
-                title="Remove from Cart?"
-                text="Do you want to remove this item from your cart?"
-                onReject={() => { setShowPopUpDeleteItem(false); }}
-                onAccept={() => { removeFromCart(user, item, {cart, setCartContext}); setShowPopUpDeleteItem(false); }}
-                />)
-            }
-          </div>
-        ))}
-      {cart.length === 0 ?
+        {cart.map((item: any) => shoppingCartItem(item,
+                                  transformIntoId(item.restaurantName+' '+item.name+' '+String(item.price)+' '+String(item.quantity), false)
+                                ))}
+      {(cart.length === 0 ?
         <h3>Your cart is empty</h3> :
-        <button className="button_finish_order"
+        (<div>
+          <button className="button_finish_order" id="finish_order"
                 onClick={() => setShowPopUpFinishOrder(true)}>Finish the Order</button>
+          <button className="button_clear_cart" id="clear_cart"
+                onClick={() => setShowPopUpClearCart(true)}>Clear Cart </button>
+          </div>))
       }
       </ul>
       {showPopUpFinishOrder && (
@@ -123,6 +141,14 @@ export const ShoppingCart = () => {
           text="Do you want to finish the order?"
           onReject={() => { setShowPopUpFinishOrder(false); }}
           onAccept={() => { finishOrder(user, {cart, setCartContext}); setShowPopUpFinishOrder(false); }}
+          />)
+      }
+      {showPopUpClearCart && (
+        <PopUp
+          title="Clear Cart?"
+          text="Do you want to clear your cart?"
+          onReject={() => { setShowPopUpClearCart(false); }}
+          onAccept={() => { eraseCart(user, {cart, setCartContext}); setShowPopUpClearCart(false); }}
           />)
       }
     </div>
