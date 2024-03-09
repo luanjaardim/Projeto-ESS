@@ -33,7 +33,12 @@
   transition: border-bottom 0.05s;
 }
 
-.formField:focus {
+.formField:invalid {
+  outline: none;
+  border: 3px solid #fd3939;
+}
+
+.formField:focus:valid {
   outline: none;
   border-bottom: 3px solid #251fa5;
 }

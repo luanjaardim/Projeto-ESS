@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import { Helmet } from "react-helmet";
-
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
@@ -22,9 +20,6 @@ const RestaurantProfilePage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Meu perfil - iBreno ;)</title>
-      </Helmet>
       {isModalOpen && (
         <Modal
           setIsOpen={setIsModalOpen}
