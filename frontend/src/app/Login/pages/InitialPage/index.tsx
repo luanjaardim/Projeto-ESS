@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { UserContext } from '../../../../Provider';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import './styles.css'
+import './styles.css';
 
 export const InitialPage = () => {
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { UserContext } from '../../../../Provider';
 import { useContext } from 'react';
 import { Link , Navigate } from 'react-router-dom';
+import './styles.css';
 
 export const LoginClientPage = () => {
   const api = new APIService;
@@ -46,37 +47,41 @@ export const LoginClientPage = () => {
   }
 
   return (
-    <div>
-      <h1>Login Cliente</h1>
-      <form>
+    <div style={{backgroundColor:"#fff13e"}}>
+      <div style={{backgroundColor:"#eff1ed"}}>
+          <Link to = '/*'>
+            <button type="button" >Voltar</button>
+          </Link>
+      <h1 className="titleLogin">Login Cliente</h1>
+      </div>
+      <div className="containerForm">
+      <form className="loginForm">
         <div>
-          <label>Email:</label>
           <input
             type="email"
+            placeholder="E-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
         <div>
-          <label>Senha:</label>
           <input
             type="password"
+            placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
         <div>
-          <Link to = '/*'>
-            <button type="button" >Voltar</button>
-          </Link>
           <button type="button" onClick={handleLogin}>Login</button>
           <Link to = '/recover/client'>
             <button type="button" >Esqueci a Senha</button>
           </Link>
         </div>
       </form>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,29 @@
+.titleLogin {
+  padding-right: 5%;
+  padding-top: 0;
+  padding-bottom: 2%;
+  margin-bottom: 2%;
+  padding-left: 43%;
+
+  background-color: #eff1ed;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 350px;
+  height: 450px;
+  background-color: #eff1ed;
+  border-radius: 30px;
+  padding: 0 60px 0 60px;
+}
+
+.containerForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-bottom: 5%;
+}
