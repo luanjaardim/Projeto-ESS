@@ -70,8 +70,8 @@ class OrderCancellationController {
           String(status)
         );
         await OrderCancellationModel.insert(
-          Number(orderId),
           Number(clientId),
+          Number(orderId),
           String(reason)
         );
         return res
