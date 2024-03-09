@@ -66,10 +66,13 @@ export default class APIService {
         return this.api.put(`/orders/${orderId}/`, JSON.stringify({ price }));
     }
 
-    getOrders(clientId: number, password: String) {
+    async getOrders(clientId: number, password: String) {
         return this.api.post(`/clients/${clientId}/orders`, {password: password},);
     }
 
+    async cancelOrder(clientId: number, orderId: number, password: String, reason: String) {
+        return this.api.put(`/clients/${clientId}/orders/${orderId}/cancellation`, {password: password, reason: reason}); 
+    }
 
     postLoginClient(email: String, password: String) {
         return this.api.post('/clients/login', {email: email, password: password});

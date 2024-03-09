@@ -1,15 +1,36 @@
+
 import {useState, useEffect, useContext} from 'react';
 import './style.css';
 import APIService from '../../../shared/components/APIService';
 import { UserContext } from '../../../Provider';
 import { Navigate, useNavigate } from 'react-router-dom';
-//import { OrderItemsList } from '../../components/RestaurantList/index';
-
 
 export const OrdersPage = () => {
-  const [modalOpen, setModalOpen] = useState(false)
-  const [orders, setOrders] = useState([]);;
-  const { user, setUserContext } = useContext(UserContext);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [orders, setOrders] = useState([]);
+  const [items, setItems] = useState([]);
+  const { user, setUserContext } = useContext(UserContext); 
+  const [count, setCounter] = useState(0);
+  const [reason, setReason] = useState(''); // Estado para armazenar o motivo do cancelamento
+  const [password, setPassword] = useState(''); // Estado para armazenar a senha
+  const [orderToCancel, setOrderToCancel] = useState(0);
+  const [orderOpen, setOrderOpen] = useState(false);
+
+  const setCancel = (val) => {
+    setOrderToCancel(val);
+  }
+
+  const setCtr = () => {
+    setCounter(count+1);
+  }
+
+  const openOrder = () => {
+    setOrderOpen(true);
+  }
+
+  const closeOrder = () => {
+    setOrderOpen(false);
+  }
 
   const openModal = () => {
     setModalOpen(true);
@@ -21,26 +42,45 @@ export const OrdersPage = () => {
 
   const navigate = useNavigate();
   const goBackToHome = () => {
-    navigate('/home');
+    navigate('/client/home');
   };
 
   const api = new APIService();
 
+  const handleMotivoChange = (event) => {
+    setReason(event.target.value);
+  };
+
+  const handleSenhaChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+
   useEffect(() => {
-    // Função para obter os pedidos da API
     const fetchOrders = async () => {
       try {
-        const response = await api.getOrders(user?.id, user?.password);
+        var response = await api.getOrders(user?.id, user?.password);
         setOrders(response.data); // Define os pedidos no estado
+        response = await api.getAllItems();
+        setItems(response.data);
       } catch (error) {
         console.error('Erro ao obter os pedidos:', error);
       }
       setUserContext({ id: 10349, password: "senha_userId10349", nome: "Hugo" });
     };
-
-    // Chama a função para obter os pedidos da API
     fetchOrders();
-  }, []); // Executa somente uma vez após a montagem do componente
+  }, [count]);
+
+  const handleConfirmCancelamento = async () => {
+      try {
+        var response = await api.cancelOrder(user?.id, orderToCancel, password, reason);
+        console.log(response);
+      } catch (error) {
+        console.error('Erro ao obter os pedidos:', error);
+      }
+      closeModal();
+      setCtr();
+  };
 
   return (
     <div className="orders-page">
@@ -54,29 +94,46 @@ export const OrdersPage = () => {
         </div>
       </header>
       <main className="order-list">
-        <div className="orders-title">Pedidos</div> {/* Caixa de indicação "Pedidos" */}
-        {orders.map((order, index) => (
-          <div className="order" key={index}>
-            <div className="order-label">Pedido #{order.id}</div> {/* Rótulo do pedido */}
-            <div className="order-details">
-            {order.products.map((products, index) => (
-            <div className="item-and-price" key={index}>
-              <div className="item">{products.itemId}</div>
-              <div className="price">{products.quantity} X R$ 10.00</div>
-            </div>
-            ))}
-              <div className="total">Total: R${order.price.toFixed(2)}</div>
-            </div>
-            <div className="order-actions">
-              <div className="action-left">
-                <div className="status">Status: {order.status}</div>
-                <div className="time">Tempo estimado: {order.time}</div>
+        <div className="orders-title">Pedidos {!orderOpen ? (<span className="arrow-icon" onClick={() => {setCtr(); openOrder();}}> 
+        <img src="src/app/OrderCancellation/pages/rArrow.png" alt="right arrow" className="arrow-icon" /></span>) : 
+        (<span className="arrow-icon" onClick={() => {setCtr(); closeOrder();}}>
+        <img src="src/app/OrderCancellation/pages/dArrow.png" alt="down arrow" className="arrow-icon" /></span>)}</div>
+        {orderOpen && (
+          <div>
+            {orders.filter(order => order.status !== "Nao finalizado").map((order, index) => (
+              <div className="order" key={index}>
+                <div className="order-label">Pedido #{order.id}</div> {/* Rótulo do pedido */}
+                <div className="order-details">
+                {order.products.map((product, index) => {
+                  const item = items.find((item) => item.id === product.itemId);
+                  return (<div className="item-and-price" key={index}>
+                    <div className="item">{item?.name}</div>
+                    <div className="price">{product.quantity} X R$ {item?.price.toFixed(2)}</div>
+                  </div>
+                )
+                })}
+                  <div className="total">Total: R${order.price.toFixed(2)}</div>
+                </div>
+                <div className="order-actions">
+                  <div className="action-left">
+                    <div className="status">
+                      Status: {order.status === "Cancelado" ? (
+                        <span className="status-cancelado">Cancelado</span>
+                      ) : order.status === "Aceito" ? (
+                        <span className="status-aceito">Aceito</span>
+                      ) : (
+                        <span className="status-pendente">{order.status}</span>
+                      )}
+                    </div>
+                    <div className="time">Tempo estimado: {order.time}</div>
+                  </div>
+                  <button className="cancel-button" onClick={() => {openModal(); setCancel(order.id);}}> Cancelar <br /> Pedido
+                  </button>
+                </div>
               </div>
-              <button className="cancel-button" onClick={openModal}> Cancelar <br /> Pedido
-              </button>
-            </div>
+            ))}
           </div>
-        ))}
+        )}
       </main>
       {modalOpen && (
         <div className="modal">
@@ -88,14 +145,14 @@ export const OrdersPage = () => {
             <div className="modal-body">
             <div className="input-group">
                 <label htmlFor="motivo">Motivo do cancelamento:</label>
-                <input type="text" id="motivo" placeholder="Digite o motivo aqui" />
+                <input type="text" id="motivo" value={reason} onChange={handleMotivoChange} placeholder="Digite o motivo aqui" />
               </div>
               <div className="input-group">
                 <label htmlFor="senha">Insira sua senha:</label>
-                <input type="password" id="senha" placeholder="Digite sua senha aqui" />
+                <input type="password" id="senha" value={password} onChange={handleSenhaChange} placeholder="Digite sua senha aqui" />
               </div>
             </div>
-            <button className="confirm-button">Confirmar Cancelamento</button>
+            <button className="confirm-button" onClick={handleConfirmCancelamento}>Confirmar Cancelamento</button>
           </div>
         </div>
       )}

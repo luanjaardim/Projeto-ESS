@@ -45,7 +45,7 @@ export const HomePage = () => {
                 <h1 className="title">Restaurants</h1>
                 <div className="top_inner_container">
                     <button className="top_button">
-                            <a href='../orders'>
+                            <a href='../order'>
                                 Pedidos Finalizados </a>
                     </button>
                     <button className="top_button"
