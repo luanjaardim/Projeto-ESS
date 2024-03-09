@@ -2,10 +2,10 @@ import axios from "axios";
 import { AxiosInstance } from "axios";
 
 interface Restaurant {
-  name: string;
-  email: String;
-  CNPJ: string;
-  password: string;
+  name?: string;
+  email?: String;
+  CNPJ?: string;
+  password?: string;
 }
 
 export default class APIService {
@@ -29,5 +29,13 @@ export default class APIService {
 
   createRestaurant(restaurant: Restaurant) {
     return this.api.post("/restaurants", restaurant);
+  }
+
+  deleteRestaurant(restaurantId: number) {
+    return this.api.delete(`/restaurants/${restaurantId}`);
+  }
+
+  updateRestaurant(restaurantId: number, restaurant: Restaurant) {
+    return this.api.put(`/restaurants/${restaurantId}`, restaurant);
   }
 }

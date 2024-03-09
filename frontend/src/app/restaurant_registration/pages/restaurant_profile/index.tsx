@@ -1,22 +1,90 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+
+import { UserContext } from "../../../../Provider";
 
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 
+import { Snackbar } from "@mui/material";
+import Slide from "@mui/material/Slide";
+import Alert from "@mui/material/Alert";
+
 import IconButton from "../../../../shared/components/IconButton";
 import styles from "./index.module.css";
 import Modal from "../../components/AlertModal";
 
+import APIService from "../../../../shared/components/APIService";
+
 const RestaurantProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editedData, setEditedData] = useState({});
+  const { user, setUserContext } = useContext(UserContext);
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isCNPJValid, setIsCNPJValid] = useState(true);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
+  const api = new APIService();
+
+  useEffect(() => {
+    //TODO: Remove this mock
+    setUserContext({
+      id: "5",
+      name: "Quentinhas",
+      email: "quentinhas@gmail.com",
+      cnpj: "24.134.488/0001-08",
+    });
+  }, []);
 
   const handleToggleEdit = () => {
+    if (isEditing) {
+      api
+        .updateRestaurant(parseInt(user.id), editedData)
+        .then((response) => {
+          console.log(response);
+          setEditedData({});
+          // setUserContext({ ...user, ...editedData });
+        })
+        .catch((error) => {
+          setSnackbarMessage(error.response.data.message);
+          setIsSnackbarOpen(true);
+          setIsEditing(true);
+          return;
+        });
+    }
+
     setIsEditing(!isEditing);
   };
 
-  const handleConfirmDelete = () => {};
+  const handleConfirmDelete = () => {
+    console.log("Excluir restaurante");
+    console.log(user);
+    if (user) {
+      api.deleteRestaurant(parseInt(user.id)).then((response) => {
+        console.log(response);
+      });
+    }
+  };
+
+  const handleFieldEdition = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditedData({ ...editedData, [name]: e.target.value });
+
+    if (name === "email") {
+      const emailRegex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+      setIsEmailValid(emailRegex.test(value));
+    }
+
+    if (name === "CNPJ") {
+      const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+      setIsCNPJValid(cnpjRegex.test(value));
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setIsSnackbarOpen(false);
+  };
 
   return (
     <>
@@ -29,7 +97,7 @@ const RestaurantProfilePage = () => {
             backgroundColor: "rgb(0,0,0,0.2)",
             color: "black",
             text: "Cancelar",
-            callback: handleConfirmDelete,
+            callback: () => {},
           }}
           rightButton={{
             backgroundColor: "#FD3939",
@@ -46,32 +114,35 @@ const RestaurantProfilePage = () => {
             icon={isEditing ? FaSave : MdEdit}
             color={isEditing ? "#54b544" : "#251fa5"}
             text={isEditing ? "Salvar" : "Editar dados"}
+            disabled={!(isCNPJValid && isEmailValid)}
             type="button"
             onClick={handleToggleEdit}
           />
           <input
             type="text"
-            placeholder="Nome"
+            name="name"
+            placeholder={user?.name || "Nome do restaurante"}
             className={styles.formField}
             disabled={!isEditing}
+            onChange={handleFieldEdition}
           />
           <input
             type="text"
-            placeholder="E-mail"
+            name="email"
+            placeholder={user?.email || "Email"}
             className={styles.formField}
             disabled={!isEditing}
+            onChange={handleFieldEdition}
+            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
           />
           <input
             type="text"
-            placeholder="CNPJ"
+            name="CNPJ"
+            placeholder={user?.cnpj || "CNPJ"}
             className={styles.formField}
             disabled={!isEditing}
-          />
-          <input
-            type="password"
-            placeholder="*********"
-            className={styles.formField}
-            disabled={!isEditing}
+            onChange={handleFieldEdition}
+            pattern="\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}"
           />
           <IconButton
             icon={FaRegTrashAlt}
@@ -83,6 +154,23 @@ const RestaurantProfilePage = () => {
           />
         </div>
       </div>
+
+      <Snackbar
+        open={isSnackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        TransitionComponent={(props) => <Slide {...props} direction="up" />}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="error"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
