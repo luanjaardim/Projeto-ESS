@@ -31,7 +31,7 @@ const RestaurantProfilePage = () => {
   useEffect(() => {
     //TODO: Remove this mock
     setUserContext({
-      id: "7",
+      id: "1",
       name: "Luquinhas",
       email: "quentinhas@gmail.com",
       cnpj: "24.134.488/0001-08",
@@ -120,6 +120,7 @@ const RestaurantProfilePage = () => {
             text={isEditing ? "Salvar" : "Editar dados"}
             disabled={!(isCNPJValid && isEmailValid)}
             type="button"
+            id="editar-salvar"
             onClick={handleToggleEdit}
           />
           <input
@@ -155,6 +156,7 @@ const RestaurantProfilePage = () => {
             type="button"
             onClick={() => setIsModalOpen(true)}
             disabled={isEditing}
+            id="excluir"
           />
         </div>
       </div>

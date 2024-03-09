@@ -111,6 +111,7 @@ const RestaurantRegistration = () => {
             type="text"
             placeholder="Nome"
             name="name"
+            id="nome"
             className={styles.formField}
             onChange={handleFormFieldChange}
           />
@@ -118,6 +119,7 @@ const RestaurantRegistration = () => {
             type="text"
             placeholder="E-mail"
             name="email"
+            id="email"
             className={styles.formField}
             onChange={handleFormFieldChange}
             pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
@@ -126,6 +128,7 @@ const RestaurantRegistration = () => {
             type="text"
             placeholder="CNPJ"
             name="CNPJ"
+            id="CNPJ"
             className={styles.formField}
             onChange={handleFormFieldChange}
             pattern="\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}"
@@ -134,6 +137,7 @@ const RestaurantRegistration = () => {
             type="password"
             placeholder="Senha"
             name="password"
+            id="senha"
             className={styles.formField}
             onChange={handleFormFieldChange}
           />
@@ -144,6 +148,7 @@ const RestaurantRegistration = () => {
             }
             text="Cadastrar"
             type="submit"
+            id="cadastrar"
             disabled={!(isCNPJValid && isEmailValid)}
           />
         </form>
