@@ -2,6 +2,12 @@ import prisma from '../database';
 
 export default class ItemsModel {
 
+    static async indexAllItems(): Promise<any[]> {
+        return await prisma.item.findMany({
+            select: { id: true, name: true, price: true },
+        });
+    }
+
     static async index(restaurantId: number): Promise<any[]> {
         return await prisma.item.findMany({
             where: { restaurantId },
