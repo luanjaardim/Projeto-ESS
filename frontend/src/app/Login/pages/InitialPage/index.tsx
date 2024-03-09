@@ -3,31 +3,32 @@ import { useEffect, useState } from 'react';
 import { UserContext } from '../../../../Provider';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import './styles.css'
 
 export const InitialPage = () => {
 
   return (
-    <div>
-      <h1>Bem vindo ao iBreno ;)</h1>
-      <div>
-
+    <div style={{backgroundColor: "#FFF13E"}}>
+      <h1 className="title">Bem vindo ao iBreno ;)</h1>
+      <h1 className="subtitle">O que deseja?</h1>
+      <div className="button_group">
         <Link to = '/clients/login'>
-          <button >Login Cliente</button>
+          <button className="button">Login Cliente</button>
         </Link>
 
         <Link to = '/clients/registration'>
-          <button >Cadastro Cliente</button>
+          <button className="button">Cadastro Cliente</button>
         </Link>
 
         <Link to = '/restaurants/login'>
-          <button >Login Restaurante</button>
+          <button className="button">Login Restaurante</button>
         </Link>
 
         <Link to = '/restaurants/registration'>
-          <button >Cadastro Restaurante</button>
+          <button className="button">Cadastro Restaurante</button>
         </Link>
-
       </div>
+
     </div>
   );
 };
