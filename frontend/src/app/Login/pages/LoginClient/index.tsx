@@ -11,8 +11,7 @@ export const LoginClientPage = () => {
   const [redirectToHome, setRedirectToHome] = useState(false);
 
   const handleLogin = (req: Request, res: Response) => {
-    // Lógica de login aqui, pode chamar sua API ou realizar validações
-    alert(`Tentativa de login do cliente com email: ${email} e senha: ${password}`);
+  alert(`Tentativa de login do cliente com email: ${email} e senha: ${password}`);
 
   const userData = {
     email: email,
@@ -24,11 +23,10 @@ export const LoginClientPage = () => {
       const token = response.data.header;
       console.log('Token recebido:', token);
 
-      // Após obter o token, você pode chamar a função para obter mais informações do cliente
       api.postTokenClient(token)
         .then(tokenResponse => {
           console.log('Dados do cliente:', tokenResponse.data);
-          // Aqui você pode redirecionar o usuário para a página home após o login
+          
           setRedirectToHome(true);
         })
         .catch(tokenError => {
@@ -38,17 +36,9 @@ export const LoginClientPage = () => {
     })
     .catch(error => {
       console.error('Erro:', error);
-      // Aqui você pode exibir uma mensagem de erro para o usuário
+      
       alert('Erro ao fazer login');
     });
-  };
-
-  const handleVoltar = () => {
-    alert('Voltando para a página inicial');
-  };
-
-  const handleEsqueciSenha = () => {
-    alert('Redirecionando para a página de recuperação de senha');
   };
 
   if (redirectToHome) {
@@ -78,12 +68,12 @@ export const LoginClientPage = () => {
           />
         </div>
         <div>
-          <Link to = '*'>
-            <button type="button" onClick={handleVoltar}>Voltar</button>
+          <Link to = '/*'>
+            <button type="button" >Voltar</button>
           </Link>
           <button type="button" onClick={handleLogin}>Login</button>
-          <Link to = 'recover/client'>
-            <button type="button" onClick={handleEsqueciSenha}>Esqueci a Senha</button>
+          <Link to = '/recover/client'>
+            <button type="button" >Esqueci a Senha</button>
           </Link>
         </div>
       </form>

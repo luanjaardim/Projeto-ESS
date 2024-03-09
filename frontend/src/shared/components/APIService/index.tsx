@@ -28,11 +28,11 @@ export default class APIService {
         return this.api.post('/clients/home', {header: 'Bearer ' + token});
     }
 
-    postLoginRestaurant() {
-        return this.api.post('/restaurant/login');
+    postLoginRestaurant(email: String, password: String) {
+        return this.api.post('/restaurant/login', {email: email, password: password});
     }
 
-    postTokenRestaurant() {
-        return this.api.post('/restaurant/home');
+    postTokenRestaurant(token: String) {
+        return this.api.post('/restaurant/home', {header: 'Bearer ' + token});
     }
 }
