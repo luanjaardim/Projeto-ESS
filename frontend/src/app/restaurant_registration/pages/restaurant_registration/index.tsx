@@ -31,8 +31,8 @@ const RestaurantRegistration = () => {
     password: "",
   });
   const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isCNPJValid, setIsCNPJValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isCNPJValid, setIsCNPJValid] = useState(true);
 
   const handleSnackbarClose = () => {
     setIsSnackbarOpen(false);
