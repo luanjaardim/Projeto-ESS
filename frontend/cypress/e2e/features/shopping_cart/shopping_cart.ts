@@ -63,6 +63,11 @@ When("eu adiciono {string} do {string} por {string} $ ao carrinho",
     cy.get(
         id
     ).should('exist');
+    cy.get(transformIntoId(`${restaurant} ${product}`, true))
+        .if()
+        .then(() => {
+            return;
+        });
     cy.get(
         id + '_button'
     ).click();
@@ -120,11 +125,3 @@ Then("o carrinho está vazio",
     function () {
     cy.contains('Your cart is empty').should('exist');
 });
-
-
-    // cy.contains('*', 'cart')
-    //     .invoke('text')
-    //     .then(text => {
-    //         // Use the text content as needed
-    //         cy.log('Text content:', text);
-    //     });
