@@ -3,7 +3,8 @@ import { FaCheck } from 'react-icons/fa6';
 function submitButton({ text }){
   return(
     <div>
-       <button className={styles.btn}>{text} </button>
+       <button type='submit' className={styles.btn}> {text} 
+       </button>
     </div>
   )
 }
