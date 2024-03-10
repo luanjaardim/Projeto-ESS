@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import { UserContext, Item } from '../../../../Provider';
 import APIService from '../../../../shared/components/APIService/index';
 import { PopUp } from '../PopUp/index';
-import { transformIntoId } from '../../pages/HomePage/index';
+import { transformIntoId, colorShoppingCartItems, colorShoppingCartBackground,
+         colorSPClearButton, colorSPFinishButton } from '../../pages/HomePage/index';
 import './styles.css';
 
 const api = new APIService();
@@ -85,7 +86,7 @@ export const ShoppingCart = () => {
 
   const shoppingCartItem = (item: Item, parentId: string, id: string) => (
     <div>
-      <li key={item.id} className="list_item_shopping_cart" style={{background: '#f5f5f0'}}>
+      <li key={item.id} className="list_item_shopping_cart" style={{background: colorShoppingCartItems}}>
         <div className="container_buttons" id={parentId}>
           <button className="button_remove" style={{background: '#9a9c98'}} id={id + '_remove'}
                   onClick={() => tryDeleteItem(item)}>
@@ -117,7 +118,7 @@ export const ShoppingCart = () => {
   }, []);
 
   return (
-    <div className="container" style={{background: '#dee0dc'}}>
+    <div className="container" style={{background: colorShoppingCartBackground}}>
       <h1 className="shopping_cart_title" id="shopping_cart">Shopping Cart</h1>
       <ul>
         {cart.map((item: Item) => shoppingCartItem(item,
@@ -127,9 +128,9 @@ export const ShoppingCart = () => {
       {(cart.length === 0 ?
         <h3>Your cart is empty</h3> :
         (<div>
-          <button className="button_finish_order" id="finish_order"
+          <button className="button_finish_order" id="finish_order" style={{background: colorSPFinishButton}}
                 onClick={() => setShowPopUpFinishOrder(true)}>Finish the Order</button>
-          <button className="button_clear_cart" id="clear_cart"
+          <button className="button_clear_cart" id="clear_cart" style={{background: colorSPClearButton}}
                 onClick={() => setShowPopUpClearCart(true)}>Clear Cart </button>
           </div>))
       }

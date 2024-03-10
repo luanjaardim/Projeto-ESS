@@ -2,7 +2,7 @@ import { UserContext } from '../../../../Provider';
 import { addToCart } from '../ShoppingCart/index';
 import { useContext, useState } from 'react';
 import { PopUp } from '../PopUp/index';
-import { transformIntoId } from '../../pages/HomePage/index';
+import { transformIntoId, colorItemBlock, colorInnerItemBlock } from '../../pages/HomePage/index';
 import './styles.css';
 
 const colors = ['#54B544', '#FD3939', '#FFF13E', '#251FA5'];
@@ -20,10 +20,10 @@ export const ItemOfRestaurant = ({ restaurantName, item }) => {
     const id = transformIntoId(restaurantName + ' ' + item.name + ' ' + item.price, false);
     return (
         <div id={id}>
-        <div className="item_of_restaurant_and_image" style={{background: color}}>
+        <div className="item_of_restaurant_and_image" style={{background: colorItemBlock}}>
             <img src= {'../src/app/Shopping_cart/assets/foods/' + (imageLoaded ? item.name : 'unknown') + '.jpg'}
                  alt='image' onError={handleImageError} className='image'/>
-            <div className="item_of_restaurant">
+            <div className="item_of_restaurant" style={{background:colorInnerItemBlock}}>
                 <h4 className="item_of_restaurant_text">
                     {item.name}
                 </h4>
