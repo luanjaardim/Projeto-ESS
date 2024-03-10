@@ -1,48 +1,58 @@
-import APIService from '../../../../shared/components/APIService/index';
-import { useEffect, useState } from 'react';
-import { UserContext } from '../../../../Provider';
-import { useContext } from 'react';
-import { Link , Navigate } from 'react-router-dom';
+import APIService from "../../../../shared/components/APIService/index";
+import { useState } from "react";
+import { UserContext } from "../../../../Provider";
+import { useContext } from "react";
+import { Link, Navigate } from "react-router-dom";
 
 export const LoginClientPage = () => {
-  const api = new APIService;
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const api = new APIService();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [redirectToHome, setRedirectToHome] = useState(false);
+  const { user, setUserContext } = useContext<any>(UserContext);
 
   const handleLogin = (req: Request, res: Response) => {
-  alert(`Tentativa de login do cliente com email: ${email} e senha: ${password}`);
+    const userData = {
+      email: email,
+      password: password,
+    };
 
-  const userData = {
-    email: email,
-    password: password
-  };
-
-  api.postLoginClient(userData.email, userData.password)
-    .then(response => {
-      const token = response.data.header;
-      console.log('Token recebido:', token);
-
-      api.postTokenClient(token)
-        .then(tokenResponse => {
-          console.log('Dados do cliente:', tokenResponse.data);
-          
-          setRedirectToHome(true);
-        })
-        .catch(tokenError => {
-          console.log(token);
-          console.error('Erro ao obter token:', tokenError);
+    api
+      .postLoginClient(userData.email, userData.password)
+      .then((response) => {
+        const token = response.data.header;
+        const client = response.data.client;
+        console.log("Client recebido", client);
+        setUserContext({
+          id: client.id,
+          name: client.name,
+          email: client.email,
+          password: userData.password,
+          address: client.address,
+          cpf: client.cpf,
         });
-    })
-    .catch(error => {
-      console.error('Erro:', error);
-      
-      alert('Erro ao fazer login');
-    });
+
+        api
+          .postTokenClient(token)
+          .then((tokenResponse) => {
+            console.log("Dados do cliente:", tokenResponse.data);
+
+            setRedirectToHome(true);
+          })
+          .catch((tokenError) => {
+            console.log(token);
+            console.error("Erro ao obter token:", tokenError);
+          });
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+
+        alert("Erro ao fazer login");
+      });
   };
 
   if (redirectToHome) {
-    return <Navigate to = "/client/home"/>;
+    return <Navigate to="/client/home" />;
   }
 
   return (
@@ -68,12 +78,14 @@ export const LoginClientPage = () => {
           />
         </div>
         <div>
-          <Link to = '/*'>
-            <button type="button" >Voltar</button>
+          <Link to="/*">
+            <button type="button">Voltar</button>
           </Link>
-          <button type="button" onClick={handleLogin}>Login</button>
-          <Link to = '/recover/client'>
-            <button type="button" >Esqueci a Senha</button>
+          <button type="button" onClick={handleLogin}>
+            Login
+          </button>
+          <Link to="/recover/client">
+            <button type="button">Esqueci a Senha</button>
           </Link>
         </div>
       </form>

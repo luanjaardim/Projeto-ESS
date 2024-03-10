@@ -49,6 +49,7 @@ const Modal = ({
             <div className={styles.actionsContainer}>
               {leftButton && (
                 <button
+                  id="leftButton"
                   className={styles.optionBtn}
                   style={{
                     backgroundColor: leftButton.backgroundColor,
@@ -65,6 +66,7 @@ const Modal = ({
 
               {rightButton && (
                 <button
+                  id="rightButton"
                   className={styles.optionBtn}
                   style={{
                     backgroundColor: rightButton.backgroundColor,
