@@ -19,11 +19,15 @@
     "cy:show-coverage": "open ./cypress-coverage/lcov-report/index.html"
   },
   "dependencies": {
+    "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.1.0",
+    "@mui/material": "^5.15.12",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
     "react-hook-form": "^7.44.1",
+    "react-icons": "^5.0.1",
     "react-router-dom": "^6.11.2",
     "zod": "^3.21.4"
   },
