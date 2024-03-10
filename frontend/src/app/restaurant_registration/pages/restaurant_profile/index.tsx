@@ -30,7 +30,6 @@ const RestaurantProfilePage = () => {
   const api = new APIService();
 
   useEffect(() => {
-    //TODO: Remove this mock
     setUserContext({
       id: "1",
       name: "Luquinhas",
