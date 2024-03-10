@@ -4,11 +4,11 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin: 10px;
+  margin: 5px;
   padding: 10px;
   border: 1px solid #000;
   border-radius: 5px;
-  width: 260px;
+  width: 250px;
   height: 140px;
   text-align: center;
 }
