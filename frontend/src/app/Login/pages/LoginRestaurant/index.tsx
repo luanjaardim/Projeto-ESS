@@ -119,7 +119,7 @@ export const LoginRestaurantPage = () => {
             text="Login"
             type="submit"
           />
-          <Link to = '/recover/restaurant'>
+          <Link to = '/restaurants/recover'>
             <button className="recPasswordButton">Esqueci a Senha</button>
           </Link>
         </div>
