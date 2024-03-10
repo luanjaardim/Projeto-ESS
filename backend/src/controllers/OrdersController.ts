@@ -17,7 +17,7 @@ class OrderCancellationController {
     const { price } = req.body;
     try {
       await OrdersModel.update(Number(orderId), Number(price));
-      return res.status(200).json({ messasge: 'sucesso :)' });
+      return res.status(200).json({ message: 'Order finished' });
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }

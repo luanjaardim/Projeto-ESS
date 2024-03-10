@@ -47,7 +47,10 @@ class OrderCancellationController {
       const order = await OrderCancellationModel.orderExistence(
         Number(orderId)
       );
-      const timeFlag = order && parseInt(order.time[0], 10) < 5;
+      const timeFlag =
+        order &&
+        parseInt(order.time[0], 10) < 1 &&
+        parseInt(order.time[1], 10) < 5;
 
       if (client) {
         passwordIsCorrect = await bcrypt.compare(password, client.password);
@@ -67,8 +70,8 @@ class OrderCancellationController {
           String(status)
         );
         await OrderCancellationModel.insert(
-          Number(orderId),
           Number(clientId),
+          Number(orderId),
           String(reason)
         );
         return res

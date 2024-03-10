@@ -1,0 +1,44 @@
+.pageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.title {
+  padding-left: 7%;
+  padding-top: 3%;
+  margin-bottom: 5%;
+}
+
+.registrationForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 350px;
+  height: 550px;
+  background-color: #eff1ed;
+  border-radius: 30px;
+  padding: 0 60px 0 60px;
+}
+
+.formField {
+  border: 0px;
+  border-radius: 10px;
+  height: 45px;
+  padding-left: 10px;
+  background-color: #d9d9d9;
+  transition: border-bottom 0.05s;
+}
+
+.formField:invalid {
+  outline: none;
+  border: 3px solid #fd3939;
+}
+
+.formField:focus:valid {
+  outline: none;
+  border-bottom: 3px solid #251fa5;
+}
