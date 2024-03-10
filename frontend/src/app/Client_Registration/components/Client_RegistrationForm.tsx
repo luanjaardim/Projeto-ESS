@@ -4,94 +4,137 @@ import SubmitButton from './form/submitButton'
 import { useState } from 'react';
 import APIService from '../../../shared/components/APIService/index';
 
-function Client_RegistrationForm({btnText}){
-  const [formData, setFormData] = useState({
-    name: '',
-    CPF: '',
-    email: '',
-    address: '',
-    password: '',
-    confirmPassword: ''
-  });
+const Client_RegistrationForm = ({btnText}) => {
+ 
+  interface Client {
+    name: string;
+    password: string;
+    CPF: string;
+    email: String;
+    address: string;
+  }
+  
+  //const ClientRegistration = () => {
+    const api = new APIService();
+    //const [isModalOpen, setIsModalOpen] = useState(false);
+    //const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+    const [clientData, setClientData] = useState<Client>({
+      name: "",
+      address: "",
+      CPF: "",
+      email: "",
+      password: "",
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const clientData = {
-        password: formData.password,
-        name: formData.name,
-        CPF: formData.CPF,
-        email: formData.email,
-        address: formData.address
+    });
+    //const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
+    const [isEmailValid, setIsEmailValid] = useState(true);
+    const [isCPFValid, setIsCPFValid] = useState(true);
+  
+//    const handleSnackbarClose = () => {
+//      setIsSnackbarOpen(false);
+//    };
+  
+    const handleFormFieldChange = (event) => {
+      const { name, value } = event.target;
+      setClientData({ ...clientData, [name]: value });
+  
+      if (name === "email") {
+        const emailRegex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+        setIsEmailValid(emailRegex.test(value));
+      }
+  
+      if (name === "CNPJ") {
+        const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\-\d{2}$/;
+        setIsCPFValid(cpfRegex.test(value));
+      }
     };
-      // Chame a função do serviço API para enviar os dados para o backend
-      await APIService.createClients(clientData);
-      alert('Usuário cadastrado com sucesso!');
-      // Limpe os campos do formulário após o envio bem-sucedido
-      setFormData({
-        name: '',
-        CPF: '',
-        email: '',
-        address: '',
-        password: '',
-        confirmPassword: ''
-      });
-    } catch (error) {
-      console.error('Erro ao cadastrar usuário:', error);
-      // Trate o erro conforme necessário (ex: exibir mensagem de erro)
-    }
-  };
+  
+    const handleFormSubmit = async (e) => {
+      e.preventDefault();
+  
+      if (
+        clientData.name === "" ||
+        clientData.email === "" ||
+        clientData.CPF === "" ||
+        clientData.password === "" ||
+        clientData.address === ""
+      ) {
+        //setSnackbarMessage("Todos os campos devem ser preenchidos!");
+        //setIsSnackbarOpen(true);
+        return;
+      }
+  
+      console.log(clientData);
+      api
+        .createClients(clientData)
+        .then((response) => {
+          setIsModalOpen(true);
+        })
+        .catch((error) => {
+          //setIsSnackbarOpen(true);
+          //setSnackbarMessage(error.response.data.message);
+          console.log(error.response.data.message);
+        });
+    };
+
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form_control}>
     <div className={styles.questions}>
       <div className={styles.questionsleft}>
-          <Input
-          type="text"
-          text ="Nome"
-          name ="name"
-          placeholder= "Insira seu nome Completo"     
+        <label htmlFor='name'>Name</label>
+          <input
+            type="text"
+            placeholder="Nome"
+            name="name"
+            id = "name"
+            className={styles.form}
+            onChange={handleFormFieldChange}    
           />
-          <Input
-          type="text"
-          text ="CPF"
-          name ="CPF"
+        <label htmlFor='CPF'>CPF</label>
+          <input
+            type="text"
+            name="CPF"
+            className={styles.form}
+            onChange={handleFormFieldChange}
           placeholder= "Insira seu CPF"     
           />
       
-      
-          <Input
-          type="text"
-          text ="E-mail"
-          name ="E-mail"
-          placeholder= "Insira seu E-mail"     
+      <label htmlFor='email'>E-mail</label>
+          <input
+            type="text"
+            placeholder="E-mail"
+            name="email"
+            id = "email"
+            className={styles.form}
+            onChange={handleFormFieldChange}  
           />
-      </div>
+      </div>    
         <div>
-        <Input
+        <label htmlFor='address'>Endereço</label>
+        <input
         type="text"
-        text ="Endereço"
-        name ="Endereço"
-        placeholder= "Insira seu Endereço"     
+        placeholder= "Insira seu Endereço" 
+        name ="address"
+        className={styles.form}
+        onChange={handleFormFieldChange}           
         />
         
-        
-        <Input
-        type="password"
-        text ="Senha"
-        name ="Senha"
-        placeholder= "Insira sua Senha"     
-        />  
-        <Input
-        type="password"
-        text ="Confirmar Senha"
-        name ="ConfirmaSenha"
-        placeholder= "Confirme sua Senha"     
+        <label htmlFor='password'>Senha</label>
+        <input
+            type="password"
+            placeholder="Senha"
+            name="password"
+            className={styles.form}
+            onChange={handleFormFieldChange}   
+        />
+        <label htmlFor='confirmpassword'>Confirmar Senha</label>  
+        <input
+            type="password"
+            placeholder="Senha"
+            name="confirmpassword"
+            className={styles.form}
+            onChange={handleFormFieldChange}    
         /> 
         </div>
 
@@ -104,5 +147,6 @@ function Client_RegistrationForm({btnText}){
     </form>
   )
 }
+
 
 export default Client_RegistrationForm

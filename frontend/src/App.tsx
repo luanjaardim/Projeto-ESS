@@ -5,7 +5,7 @@ import { client_profile } from "./app/Client_Registration/pages/client_profile";
 const router = createBrowserRouter([
   {
     path: "*",
-    Component: client_profile,
+    Component: Client_RegistrationPage,
   },
 ]);
 
