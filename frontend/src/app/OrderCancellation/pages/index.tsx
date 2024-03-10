@@ -83,6 +83,7 @@ export const OrdersPage = () => {
       try {
         var response = await api.getOrders(user?.id, user?.password);
         setOrders(response.data); // Define os pedidos no estado
+        ordersSize = orders.length;
         response = await api.getAllItems();
         setItems(response.data);
       } catch (error) {
