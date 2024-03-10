@@ -90,7 +90,6 @@ export const OrdersPage = () => {
       } catch (error) {
         console.error('Erro ao obter os pedidos:', error);
       }
-      setUserContext({ id: 10349, password: "senha_userId10349", nome: "Hugo" });
     };
 
     fetchOrders();

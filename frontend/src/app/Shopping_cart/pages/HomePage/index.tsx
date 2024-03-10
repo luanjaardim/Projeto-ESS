@@ -4,23 +4,22 @@ import { RestaurantItemsList } from '../../components/RestaurantList/index';
 import { UserContext } from '../../../../Provider';
 import { useContext } from 'react';
 import { ShoppingCart } from '../../components/ShoppingCart/index';
+import { useNavigate } from 'react-router-dom';
 import './styles.css';
+
+export const transformIntoId = (name: string, with_hash: boolean) => {
+    return (with_hash ? '#' : '') + name.toLowerCase().replace(/ /g, '_');
+}
 
 export const HomePage = () => {
     const api = new APIService();
     const [restaurants, setRestaurants] = useState([]);
-    const { user, setUserContext, setCartContext } = useContext(UserContext);
+    const { user, setCartContext } = useContext(UserContext);
     const [showCart, setShowCart] = useState(false);
 
     useEffect(() => {
         const fetchRestaurants = async () => {
             setRestaurants((await api.getRestaurants()).data);
-        };
-        const isUserLogged = async () => {
-            // TODO: CHECK FOR A POSSIBLE NOT EXISTING USER
-            // get the logged user while there is no authentication
-            const LoggedUser = await api.getUser(1);
-            setUserContext(LoggedUser);
         };
         const getCart = async () => {
             if(user !== null) {
@@ -31,24 +30,28 @@ export const HomePage = () => {
         };
         //run the functions in the correct order
         fetchRestaurants().then(async () => {
-            await isUserLogged().then( async() => {
-                await getCart().then(() => {
-                });
+            await getCart().then(() => {
             });
         });
 
     }, []);
 
+    const navigate = useNavigate();
+    const goToOrder = () => {
+        navigate('/order');
+    }
+
     return (
         <div style={{background: '#fffaba'}}>
             <div className="top_container">
-                <h1 className="title">Restaurants</h1>
+                <h1 className="title" id="restaurants">Restaurants</h1>
                 <div className="top_inner_container">
                     <button className="top_button">
                             <a href='../order'>
                                 Pedidos Finalizados </a>
+                            onClick={goToOrder}> Finished Orders
                     </button>
-                    <button className="top_button"
+                    <button className="top_button" id="shopping_cart_button"
                             onClick={() => {setShowCart(!showCart)}}>
                         <img src="../src/app/Shopping_cart/assets/icons/cart.png"
                              alt="Shopping Cart" style={{width:'30px', height:'30px'}}/>

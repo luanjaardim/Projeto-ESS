@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
@@ -8,7 +8,7 @@ interface User {
   cpf?: string;
 }
 
-interface Item {
+export interface Item {
     id: number;
     name: string;
     price: number;
@@ -16,7 +16,7 @@ interface Item {
     restaurantName: string;
 }
 
-interface UserContextType {
+export interface UserContextType {
   user: User | null;
   setUserContext: (user: User) => void;
   cart: Item[];

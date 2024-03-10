@@ -1,6 +1,7 @@
 import { ItemOfRestaurant } from '../ItemOfRestaurant/index';
 import { useEffect, useState } from 'react';
 import APIService from '../../../../shared/components/APIService/index';
+import { transformIntoId } from '../../pages/HomePage/index';
 import './styles.css';
 
 export const RestaurantItemsList = ({ restaurant }) => {
@@ -17,11 +18,13 @@ export const RestaurantItemsList = ({ restaurant }) => {
 
     return (
         <div className="container_of_restaurant_items">
-            <h2 className="restaurant_name">{restaurant.name}</h2>
+            <h2 className="restaurant_name" id={transformIntoId(restaurant.name, false)}>
+                {restaurant.name}
+            </h2>
             <ul className="list_of_restaurant_items">
                 {items.map((item) => (
                     <li key={item.id}>
-                        <ItemOfRestaurant item={item} />
+                        <ItemOfRestaurant restaurantName={restaurant.name} item={item} />
                     </li>
                 ))}
             </ul>
