@@ -6,14 +6,16 @@ import { InitialPage } from './app/Login/pages/InitialPage/index';
 import { LoginClientPage } from "./app/Login/pages/LoginClient/index";
 import { LoginRestaurantPage } from "./app/Login/pages/LoginRestaurant/index";
 import { OrdersPage } from './app/OrderCancellation/pages/index';
+import { Client_RegistrationPage } from "./app/Client_Registration/pages/client_registration";
+import  client_profile  from "./app/Client_Registration/pages/client_profile";
 
 
 const router = createBrowserRouter([
   {
     path: "/*",
-    Component: InitialPage,
+    Component: client_profile,
   },
-  {
+/*  {
     path: "/clients/login",
     Component: LoginClientPage,
   },
@@ -37,6 +39,7 @@ const router = createBrowserRouter([
     path: "order",
     Component: OrdersPage,
   }
+  */
 ]);
 
 export default function App() {

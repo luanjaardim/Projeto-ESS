@@ -8,6 +8,8 @@ interface Restaurant {
   password?: string;
 }
 
+
+
 export default class APIService {
   private api: AxiosInstance;
   constructor() {
@@ -199,5 +201,22 @@ export default class APIService {
 
   postTokenRestaurant(token: String) {
     return this.api.post("/restaurant/home", { header: "Bearer " + token });
+  }
+
+  getClients() {
+    return this.api.get("/clients");
+  }
+
+
+  createClient(client: Client) {
+    return this.api.post("/clients", client);
+  }
+
+  deleteClient(restaurantId: number) {
+    return this.api.delete(`/clients/${clientId}`);
+  }
+
+  updateClient(clientId: number, client: Restaurant) {
+    return this.api.put(`/clients/${clientId}`, client);
   }
 }

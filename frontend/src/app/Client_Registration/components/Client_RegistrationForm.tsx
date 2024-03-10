@@ -72,8 +72,7 @@ const Client_RegistrationForm = ({btnText}) => {
       }
   
       console.log(clientData);
-      api
-        .createClients(clientData)
+      api.createClient(clientData)
         .then((response) => {
           console.log("Cadastro realizado com sucesso");
         })
