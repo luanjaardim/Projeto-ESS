@@ -94,6 +94,7 @@ export const LoginClientPage = () => {
         <div>
           <input
             type="email"
+            id="email"
             placeholder="E-mail"
             value={email}
             className="formFieldLogin"
@@ -104,6 +105,7 @@ export const LoginClientPage = () => {
         <div>
           <input
             type="password"
+            id="senha"
             placeholder="Senha"
             value={password}
             className="formFieldLogin"
@@ -115,6 +117,7 @@ export const LoginClientPage = () => {
         <IconButton
             onClick={handleLogin}
             icon={FaCheck}
+            id="Login"
             color="#54b544"
             text="Login"
             type="submit"
