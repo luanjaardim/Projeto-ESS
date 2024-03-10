@@ -137,7 +137,12 @@ export const ShoppingCart = () => {
             <button className="button" style={{background: '#54B544'}} id={id + '_plus'}
                     onClick={() => increaseQuantity(user, item, {cart, setCartContext})}> + </button>
             <button className="button" style={{background: '#FD3939'}} id={id + '_minus'}
-                    onClick={() => decreaseQuantity(user, item, {cart, setCartContext})}> - </button>
+                    onClick={() => {
+                      if(item.quantity > 1)
+                        decreaseQuantity(user, item, {cart, setCartContext})
+                      else
+                        tryDeleteItem(item);
+                    }}> - </button>
           </div>
         </div>
         <div>
