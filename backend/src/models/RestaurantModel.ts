@@ -7,7 +7,8 @@ class RestaurantModel {
     name: string,
     CNPJ: string,
     email: string,
-    password: string
+    password: string,
+    code: string = "00000"
   ) {
     const existingRestaurant = await prisma.restaurant.findFirst({
       where: {
@@ -22,7 +23,7 @@ class RestaurantModel {
     }
 
     const restaurant = await prisma.restaurant.create({
-      data: { name, cnpj: CNPJ, email, password },
+      data: { name, cnpj: CNPJ, email, password, code },
     });
 
     return restaurant;
