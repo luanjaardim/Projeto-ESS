@@ -5,6 +5,7 @@ interface LogoButtonProps {
   icon: IconType;
   text: string;
   color: string;
+  id: string;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   onClick?: () => void;
@@ -17,9 +18,11 @@ const IconButton = ({
   color,
   onClick,
   disabled,
+  id,
 }: LogoButtonProps) => {
   return (
     <button
+      id={id}
       className={styles.button}
       type={type}
       style={{

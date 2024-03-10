@@ -26,16 +26,18 @@ const RestaurantProfilePage = () => {
   const [isCNPJValid, setIsCNPJValid] = useState(true);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
+  const [snackBarSeverity, setSnackBarSeverity] = useState<any>("error");
   const api = new APIService();
 
   useEffect(() => {
     //TODO: Remove this mock
-    setUserContext({
-      id: "7",
-      name: "Luquinhas",
-      email: "quentinhas@gmail.com",
-      cnpj: "24.134.488/0001-08",
-    });
+    console.log(user);
+    // setUserContext({
+    //   id: "1",
+    //   name: "Luquinhas",
+    //   email: "quentinhas@gmail.com",
+    //   cnpj: "24.134.488/0001-08",
+    // });
   }, []);
 
   const handleToggleEdit = () => {
@@ -45,10 +47,14 @@ const RestaurantProfilePage = () => {
         .then((response) => {
           console.log(response);
           setEditedData({});
+          setSnackbarMessage(response.data.message);
+          setSnackBarSeverity("success");
+          setIsSnackbarOpen(true);
           // setUserContext({ ...user, ...editedData });
         })
         .catch((error) => {
           setSnackbarMessage(error.response.data.message);
+          setSnackBarSeverity("error");
           setIsSnackbarOpen(true);
           setIsEditing(true);
           return;
@@ -120,11 +126,13 @@ const RestaurantProfilePage = () => {
             text={isEditing ? "Salvar" : "Editar dados"}
             disabled={!(isCNPJValid && isEmailValid)}
             type="button"
+            id={isEditing ? "salvar" : "editar"}
             onClick={handleToggleEdit}
           />
           <input
             type="text"
             name="name"
+            id="nome"
             placeholder={user?.name || "Nome do restaurante"}
             className={styles.formField}
             disabled={!isEditing}
@@ -133,6 +141,7 @@ const RestaurantProfilePage = () => {
           <input
             type="text"
             name="email"
+            id="email"
             placeholder={user?.email || "Email"}
             className={styles.formField}
             disabled={!isEditing}
@@ -142,6 +151,7 @@ const RestaurantProfilePage = () => {
           <input
             type="text"
             name="CNPJ"
+            id="CNPJ"
             placeholder={user?.cnpj || "CNPJ"}
             className={styles.formField}
             disabled={!isEditing}
@@ -155,6 +165,7 @@ const RestaurantProfilePage = () => {
             type="button"
             onClick={() => setIsModalOpen(true)}
             disabled={isEditing}
+            id="excluir"
           />
         </div>
       </div>
@@ -168,7 +179,7 @@ const RestaurantProfilePage = () => {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity="error"
+          severity={snackBarSeverity}
           variant="filled"
           sx={{ width: "100%" }}
         >
