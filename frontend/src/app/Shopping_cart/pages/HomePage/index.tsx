@@ -7,6 +7,26 @@ import { ShoppingCart } from '../../components/ShoppingCart/index';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 
+//some colors
+export const green = '#54B544';
+export const red = '#FD3939';
+export const yellow = '#FFF13E';
+export const blue = '#251FA5';
+export const white = '#EFF1ED';
+export const black = '#131200';
+
+//application base colors
+export const colorPageBackground = '#fffaba'; //fffaba e9e9e9
+export const colorRestaurantBlock = '#bdbebd';
+export const colorItemBlock = '#949494';
+export const colorInnerItemBlock = '#686868';
+export const colorToggleShoppingCart = green;
+export const colorShoppingCartBackground = '#e9e9e9';
+export const colorShoppingCartItems = '#bdbebd';
+export const colorSPClearButton = '#949494';
+export const colorSPFinishButton = '#686868';
+export const colorGoToFinnishedOrders = blue;
+
 export const transformIntoId = (name: string, with_hash: boolean) => {
     return (with_hash ? '#' : '') + name.toLowerCase().replace(/ /g, '_');
 }
@@ -42,16 +62,14 @@ export const HomePage = () => {
     }
 
     return (
-        <div style={{background: '#fffaba'}}>
+        <div style={{background: colorPageBackground}}>
             <div className="top_container">
                 <h1 className="title" id="restaurants">Restaurants</h1>
                 <div className="top_inner_container">
-                    <button className="top_button">
-                            <a href='../order'>
-                                Pedidos Finalizados </a>
+                    <button className="top_button" style={{background: colorGoToFinnishedOrders}}
                             onClick={goToOrder}> Finished Orders
                     </button>
-                    <button className="top_button" id="shopping_cart_button"
+                    <button className="top_button" id="shopping_cart_button" style={{background: colorToggleShoppingCart}}
                             onClick={() => {setShowCart(!showCart)}}>
                         <img src="../src/app/Shopping_cart/assets/icons/cart.png"
                              alt="Shopping Cart" style={{width:'30px', height:'30px'}}/>
