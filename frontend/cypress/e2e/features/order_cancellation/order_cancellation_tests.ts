@@ -16,7 +16,7 @@ Given(
     cy.contains("Login Cliente").click();
     cy.get(":nth-child(1) > input").type(name);
     cy.get(":nth-child(2) > input").type(password);
-    cy.get(":nth-child(3) > :nth-child(2)").click();
+    cy.get("span").click();
     cy.wait(500);
   }
 );
