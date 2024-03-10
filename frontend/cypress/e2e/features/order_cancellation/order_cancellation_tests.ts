@@ -72,7 +72,7 @@ When(
       cy.get(":nth-child(1) > label").type(reason);
     }
     if (password != "") {
-      cy.get("#senha").type(password);
+      cy.get(':nth-child(2) > label').type(password);
     }
     cy.get(".confirm-button-cancPg").click();
   }

@@ -1,7 +1,7 @@
 import { ItemOfRestaurant } from '../ItemOfRestaurant/index';
 import { useEffect, useState } from 'react';
 import APIService from '../../../../shared/components/APIService/index';
-import { transformIntoId } from '../../pages/HomePage/index';
+import { transformIntoId, colorRestaurantBlock } from '../../pages/HomePage/index';
 import './styles.css';
 
 export const RestaurantItemsList = ({ restaurant }) => {
@@ -17,7 +17,7 @@ export const RestaurantItemsList = ({ restaurant }) => {
     }, [restaurant.id]);
 
     return (
-        <div className="container_of_restaurant_items">
+        <div className="container_of_restaurant_items" style={{background: colorRestaurantBlock}}>
             <h2 className="restaurant_name" id={transformIntoId(restaurant.name, false)}>
                 {restaurant.name}
             </h2>
