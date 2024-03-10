@@ -25,19 +25,19 @@ export const LoginClientPage = () => {
 
   const handleLogin = async(e) => {
     e.preventDefault();
-  alert(`Tentativa de login do cliente com email: ${email} e senha: ${password}`);
+  //alert(`Tentativa de login do cliente com email: ${email} e senha: ${password}`);
 
   const userData = {
     email: email,
     password: password
   };
 
-      if(!(userData.email && userData.password)) {
-        alert('Erro ao fazer login2222');
-      setSnackbarMessage("Todos os campos devem ser preenchidos!");
-      setIsSnackbarOpen(true);
-      return;
-      }
+  if(!(userData.email && userData.password)) {
+    //alert('Erro ao fazer login2222');
+  setSnackbarMessage("Todos os campos devem ser preenchidos!");
+  setIsSnackbarOpen(true);
+  return;
+  }
 
   api.postLoginClient(userData.email, userData.password)
     .then(response => {
@@ -59,7 +59,7 @@ export const LoginClientPage = () => {
     .catch(error => {
       console.error('Erro:', error);
       
-      alert('Erro ao fazer login');
+      //alert('Erro ao fazer login');
       
       setSnackbarMessage("Email e/ou senha incorretos");
       setIsSnackbarOpen(true);
