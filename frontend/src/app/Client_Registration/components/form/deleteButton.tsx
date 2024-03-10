@@ -4,7 +4,7 @@ import { FaCheck } from 'react-icons/fa6';
 function deleteButton({ text }){
   return(
     <div>
-       <button className={styles.botao}>{text} </button>
+       <button type='button' className={styles.botao}>{text} </button>
     </div>
   )
 }

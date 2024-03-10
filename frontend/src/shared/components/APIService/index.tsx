@@ -32,6 +32,9 @@ export default class APIService {
         return this.api.delete(`/clients/${clientsid}`);
     }
 
+    updateClients(clientsid: number, client: Client) {
+        return this.api.put(`/clients/${clientsid}`, client);
+      }
 
 
 }
