@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { UserContext, Item } from '../../../../Provider';
 import APIService from '../../../../shared/components/APIService/index';
-import { PopUp } from '../PopUp/index';
+import { PopUp, PopUpType } from '../PopUp/index';
 import { transformIntoId, colorShoppingCartItems, colorShoppingCartBackground,
          colorSPClearButton, colorSPFinishButton } from '../../pages/HomePage/index';
 import './styles.css';
@@ -22,11 +22,9 @@ export const addToCart = async (user: any, item: any, context: any) => {
 
 const removeFromCart = async (user: any, item: any, context: any) => {
   const {message} = (await api.removeItemFromCart(user.id, item.id)).data;
+  console.log(`removeFromCart of ${item.name}: `, message);
   if (message === 'Item removed from cart') {
     context.setCartContext(context.cart.filter((cartItem: any) => cartItem.id !== item.id));
-    console.log('Item removed from cart');
-  } else {
-    console.error('Error removing item from cart');
   }
 };
 
@@ -72,16 +70,58 @@ const eraseCart = (user: any, context: any) => {
   setCartContext([]);
 };
 
+enum PopUpOperationType {
+  None,
+  RemoveFromCart,
+  FinishOrder,
+  ClearCart
+}
+
 export const ShoppingCart = () => {
   const {user, cart, setCartContext} = useContext(UserContext);
-  const [showPopUpDeleteItem, setShowPopUpDeleteItem] = useState(false);
-  const [showPopUpFinishOrder, setShowPopUpFinishOrder] = useState(false);
-  const [showPopUpClearCart, setShowPopUpClearCart] = useState(false);
+  const [typePopUp, _setTypePopUp] = useState<PopUpType>(PopUpType.confirmPopUp);
+  const [operationPopUp, setOperationPopUp] = useState<PopUpOperationType>(PopUpOperationType.None);
+  const [titlePopUp, setTitlePopUp] = useState('');
+  const [textPopUp, setTextPopUp] = useState('');
+  const [showPopUp, setShowPopUp] = useState(false);
   const [itemToDelete, setItemToDelete] = useState({id: 0, name: '', price: 0, quantity: 0, restaurantName: ''});
 
   const tryDeleteItem = (item: Item) => {
+    setShowPopUp(true);
     setItemToDelete(item);
-    setShowPopUpDeleteItem(true);
+    setTitlePopUp('Remove from Cart?');
+    setTextPopUp(`Do you want to remove ${item.name} of ${item.restaurantName} from the cart?`);
+    setOperationPopUp(PopUpOperationType.RemoveFromCart);
+  };
+
+  const tryFinishOrder = () => {
+    setShowPopUp(true);
+    setTitlePopUp('Finish Order?');
+    setTextPopUp('Do you want to finish the order?');
+    setOperationPopUp(PopUpOperationType.FinishOrder);
+  };
+
+  const tryClearCart = () => {
+    setShowPopUp(true);
+    setTitlePopUp('Clear Cart?');
+    setTextPopUp('Do you want to clear the cart?');
+    setOperationPopUp(PopUpOperationType.ClearCart);
+  };
+
+  const onAcceptPopUp = () => {
+      switch(operationPopUp) {
+        case PopUpOperationType.RemoveFromCart:
+          removeFromCart(user, itemToDelete, {cart, setCartContext});
+          break;
+        case PopUpOperationType.FinishOrder:
+          finishOrder(user, {cart, setCartContext});
+          break;
+        case PopUpOperationType.ClearCart:
+          eraseCart(user, {cart, setCartContext});
+          break;
+        default:
+          break;
+      }
   };
 
   const shoppingCartItem = (item: Item, parentId: string, id: string) => (
@@ -129,38 +169,19 @@ export const ShoppingCart = () => {
         <h3>Your cart is empty</h3> :
         (<div>
           <button className="button_finish_order" id="finish_order" style={{background: colorSPFinishButton}}
-                onClick={() => setShowPopUpFinishOrder(true)}>Finish the Order</button>
+                onClick={tryFinishOrder}>Finish the Order</button>
           <button className="button_clear_cart" id="clear_cart" style={{background: colorSPClearButton}}
-                onClick={() => setShowPopUpClearCart(true)}>Clear Cart </button>
+                onClick={tryClearCart}>Clear Cart </button>
           </div>))
       }
       </ul>
-      {showPopUpFinishOrder && (
+      {showPopUp && (
         <PopUp
-          title="Finish the Order?"
-          text="Do you want to finish the order?"
-          onReject={() => { setShowPopUpFinishOrder(false); }}
-          onAccept={() => { finishOrder(user, {cart, setCartContext}); setShowPopUpFinishOrder(false); }}
-          />)
-      }
-      {showPopUpClearCart && (
-        <PopUp
-          title="Clear Cart?"
-          text="Do you want to clear your cart?"
-          onReject={() => { setShowPopUpClearCart(false); }}
-          onAccept={() => { eraseCart(user, {cart, setCartContext}); setShowPopUpClearCart(false); }}
-          />)
-      }
-      {showPopUpDeleteItem && (
-        <PopUp
-          title="Remove from Cart?"
-          text="Do you want to remove this item from your cart?"
-          onReject={() => { setShowPopUpDeleteItem(false); }}
-          onAccept={() => {
-            //remove the las item setted as itemToDelete
-            removeFromCart(user, itemToDelete, {cart, setCartContext});
-            setShowPopUpDeleteItem(false);
-          }}
+          typePopUp={typePopUp}
+          title={titlePopUp}
+          text={textPopUp}
+          onReject={() => setShowPopUp(false)}
+          onAccept={() => { onAcceptPopUp(); setShowPopUp(false); }}
           />)
       }
     </div>
