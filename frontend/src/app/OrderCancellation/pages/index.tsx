@@ -5,17 +5,34 @@ import APIService from '../../../shared/components/APIService';
 import { UserContext } from '../../../Provider';
 import { Navigate, useNavigate } from 'react-router-dom';
 
+import { Snackbar } from "@mui/material";
+import Slide from "@mui/material/Slide";
+import Alert from "@mui/material/Alert";
+
+export var ordersSize = 0;
+
+
 export const OrdersPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   const [items, setItems] = useState([]);
   const { user, setUserContext } = useContext(UserContext); 
   const [count, setCounter] = useState(0);
-  const [reason, setReason] = useState(''); // Estado para armazenar o motivo do cancelamento
-  const [password, setPassword] = useState(''); // Estado para armazenar a senha
+  const [reason, setReason] = useState(''); 
+  const [password, setPassword] = useState(''); 
   const [orderToCancel, setOrderToCancel] = useState(0);
   const [orderOpen, setOrderOpen] = useState(false);
   const [ansStatus, setAnsStatus] = useState("normal"); 
+  const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+
+  const handleSnackbarClose = () => {
+    setIsSnackbarOpen(false);
+  };
+
+  const handleSnackbarOpen = () => {
+    setIsSnackbarOpen(true);
+  };
 
   const setStatus = (nStatus) => {
     setAnsStatus(nStatus);
@@ -66,12 +83,13 @@ export const OrdersPage = () => {
       try {
         var response = await api.getOrders(user?.id, user?.password);
         setOrders(response.data); // Define os pedidos no estado
+        ordersSize = orders.length;
+        console.log(ordersSize);
         response = await api.getAllItems();
         setItems(response.data);
       } catch (error) {
         console.error('Erro ao obter os pedidos:', error);
       }
-      setUserContext({ id: 10349, password: "senha_userId10349", nome: "Hugo" });
     };
 
     fetchOrders();
@@ -86,11 +104,22 @@ export const OrdersPage = () => {
 
   }, [count, ansStatus]);
 
-  const handleConfirmCancelamento = async () => {
+  const handleConfirmCancelamento = () => {
+      if (
+        reason === "" 
+      ) {
+        setSnackbarMessage("Preencha o campo de motivo!");
+        handleSnackbarOpen();
+        return;
+      }
+      else if (password === ""){
+        setSnackbarMessage("Preencha o campo de senha!");
+        handleSnackbarOpen();
+        return;
+      }
       try {
-        var response = await api.cancelOrder(user?.id, orderToCancel, password, reason);
+        //await api.cancelOrder(user?.id, orderToCancel, password, reason);
         setStatus("funcionou");
-        //console.log(ansStatus);
       }
       
        catch (error) {
@@ -136,7 +165,7 @@ export const OrdersPage = () => {
           <div>
             {orders.filter(order => order.status !== "Nao finalizado").map((order, index) => (
               <div className="order-cancPg" key={index}>
-                <div className="order-label-cancPg">Pedido #{order.id}</div> {/* Rótulo do pedido */}
+                <div className="order-label-cancPg">Pedido #{order.id}</div> 
                 <div className="order-details-cancPg">
                 {order.products.map((product, index) => {
                   const item = items.find((item) => item.id === product.itemId);
@@ -199,9 +228,23 @@ export const OrdersPage = () => {
           ansStatus === "senha incorreta" ? "Senha incorreta!" :
           ansStatus === "funcionou" ? "Cancelamento bem sucedido!" : ""}</p>
         </div>
-)}
-
-
+      )}
+      <Snackbar
+          open={isSnackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          TransitionComponent={(props) => <Slide {...props} direction="up" />}
+        >
+          <Alert
+            onClose={handleSnackbarClose}
+            severity="error"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
     </div>
   );
 };

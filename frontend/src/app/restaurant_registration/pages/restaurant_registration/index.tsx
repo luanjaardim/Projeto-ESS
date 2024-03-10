@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Snackbar } from "@mui/material";
 import Slide from "@mui/material/Slide";
@@ -33,6 +34,7 @@ const RestaurantRegistration = () => {
   const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isCNPJValid, setIsCNPJValid] = useState(true);
+  const navigate = useNavigate();
 
   const handleSnackbarClose = () => {
     setIsSnackbarOpen(false);
@@ -94,7 +96,9 @@ const RestaurantRegistration = () => {
               color: "white",
               backgroundColor: "#54b544",
               text: "Fazer login",
-              callback: () => {},
+              callback: () => {
+                navigate("/restaurants/login");
+              },
             }}
           />
         )}
@@ -107,6 +111,7 @@ const RestaurantRegistration = () => {
             type="text"
             placeholder="Nome"
             name="name"
+            id="nome"
             className={styles.formField}
             onChange={handleFormFieldChange}
           />
@@ -114,6 +119,7 @@ const RestaurantRegistration = () => {
             type="text"
             placeholder="E-mail"
             name="email"
+            id="email"
             className={styles.formField}
             onChange={handleFormFieldChange}
             pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
@@ -122,6 +128,7 @@ const RestaurantRegistration = () => {
             type="text"
             placeholder="CNPJ"
             name="CNPJ"
+            id="CNPJ"
             className={styles.formField}
             onChange={handleFormFieldChange}
             pattern="\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}"
@@ -130,6 +137,7 @@ const RestaurantRegistration = () => {
             type="password"
             placeholder="Senha"
             name="password"
+            id="senha"
             className={styles.formField}
             onChange={handleFormFieldChange}
           />
@@ -140,6 +148,7 @@ const RestaurantRegistration = () => {
             }
             text="Cadastrar"
             type="submit"
+            id="cadastrar"
             disabled={!(isCNPJValid && isEmailValid)}
           />
         </form>

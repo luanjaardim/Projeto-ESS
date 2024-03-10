@@ -12,12 +12,13 @@ import IconButton from "../../../../shared/components/IconButton";
 import { FaCheck } from "react-icons/fa6";
 
 export const LoginRestaurantPage = () => {
-  const api = new APIService;
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const api = new APIService();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [redirectToHome, setRedirectToHome] = useState(false);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
+  const { user, setUserContext } = useContext<any>(UserContext);
 
   const handleSnackbarClose = () => {
     setIsSnackbarOpen(false);
@@ -39,32 +40,42 @@ export const LoginRestaurantPage = () => {
   return;
   }
 
-  api.postLoginRestaurant(userData.email, userData.password)
-    .then(response => {
+    api
+      .postLoginRestaurant(userData.email, userData.password)
+      .then((response) => {
+        const token = response.data.header;
+        const restaurant = response.data.restaurant;
+        console.log("Token recebido:", token);
 
-      const token = response.data.header;
-      console.log('Token recebido:', token);
-
-      api.postTokenRestaurant(token)
-        .then(tokenResponse => {
-          console.log('Dados do restaurante:', tokenResponse.data);
-          
-          setRedirectToHome(true);
-        })
-        .catch(tokenError => {
-          console.log(token);
-          console.error('Erro ao obter token:', tokenError);
+        setUserContext({
+          id: restaurant.id,
+          name: restaurant.name,
+          email: restaurant.email,
+          address: restaurant.address,
+          cnpj: restaurant.cnpj,
         });
-    })
-    .catch(error => {
-      console.error('Erro:', error);
+
+        api
+          .postTokenRestaurant(token)
+          .then((tokenResponse) => {
+            console.log("Dados do restaurante:", tokenResponse.data);
+
+            setRedirectToHome(true);
+          })
+          .catch((tokenError) => {
+            console.log(token);
+            console.error("Erro ao obter token:", tokenError);
+          });
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+
+        //alert('Erro ao fazer login');
       
-     //alert('Erro ao fazer login');
-      
-      setSnackbarMessage("Email e/ou senha incorretos");
-      setIsSnackbarOpen(true);
-      return;
-    });
+        setSnackbarMessage("Email e/ou senha incorretos");
+        setIsSnackbarOpen(true);
+        return;
+      });
   };
 
   if (redirectToHome) {

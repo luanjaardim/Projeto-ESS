@@ -12,12 +12,13 @@ import IconButton from "../../../../shared/components/IconButton";
 import { FaCheck } from "react-icons/fa6";
 
 export const LoginClientPage = () => {
-  const api = new APIService;
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const api = new APIService();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [redirectToHome, setRedirectToHome] = useState(false);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
+  const { user, setUserContext } = useContext<any>(UserContext);
 
   const handleSnackbarClose = () => {
     setIsSnackbarOpen(false);
@@ -43,7 +44,16 @@ export const LoginClientPage = () => {
     .then(response => {
 
       const token = response.data.header;
-      console.log('Token recebido:', token);
+      const client = response.data.client;
+      console.log('Client recebido:', token);
+      setUserContext({
+        id: client.id,
+        name: client.name,
+        email: client.email,
+        password: userData.password,
+        address: client.address,
+        cpf: client.cpf,
+      });
 
       api.postTokenClient(token)
         .then(tokenResponse => {
@@ -68,7 +78,7 @@ export const LoginClientPage = () => {
   };
 
   if (redirectToHome) {
-    return <Navigate to = "/client/home"/>;
+    return <Navigate to="/client/home" />;
   }
 
   return (

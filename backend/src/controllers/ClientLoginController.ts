@@ -10,14 +10,23 @@ class ClientLoginController {
     const { email, password } = req.body;
 
     try {
-      const { status, client } = await ClientLoginModel.authenticate(email, password);
+      const { status, client } = await ClientLoginModel.authenticate(
+        email,
+        password
+      );
       if (status === 'OK') {
         // Geração do token de autenticação
-        const token = jwt.sign({ clientId: client.id }, process.env.JWT_SECRET as string , { expiresIn: '18h' });
+        const token = jwt.sign(
+          { clientId: client.id },
+          process.env.JWT_SECRET as string,
+          { expiresIn: '18h' }
+        );
         //console.log(token + token);
         //console.log(req.body);
 
-        res.status(200).json({ message: 'Login bem sucedido', header: token });
+        res
+          .status(200)
+          .json({ message: 'Login bem sucedido', header: token, client });
         //res.locals = { data: {token} };
         //res.status(200).json({ message: 'Login bem sucedido', token });
       }
@@ -30,12 +39,17 @@ class ClientLoginController {
     //console.log(req.body);
     const authToken = req.body.header;
     if (!authToken) {
-      return res.status(401).json({ error: 'Token de autorização não fornecido' });
+      return res
+        .status(401)
+        .json({ error: 'Token de autorização não fornecido' });
     }
 
     try {
       const token = authToken.split(' ')[1]; // Excluindo o prefixo 'Bearer' do token
-      const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET as string);
+      const decodedToken: any = jwt.verify(
+        token,
+        process.env.JWT_SECRET as string
+      );
       //req.userId = decodedToken.clientId;
       next();
     } catch (error) {
