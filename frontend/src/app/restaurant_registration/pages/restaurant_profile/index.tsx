@@ -31,12 +31,13 @@ const RestaurantProfilePage = () => {
 
   useEffect(() => {
     //TODO: Remove this mock
-    setUserContext({
-      id: "1",
-      name: "Luquinhas",
-      email: "quentinhas@gmail.com",
-      cnpj: "24.134.488/0001-08",
-    });
+    console.log(user);
+    // setUserContext({
+    //   id: "1",
+    //   name: "Luquinhas",
+    //   email: "quentinhas@gmail.com",
+    //   cnpj: "24.134.488/0001-08",
+    // });
   }, []);
 
   const handleToggleEdit = () => {
