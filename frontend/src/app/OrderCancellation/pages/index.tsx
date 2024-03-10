@@ -9,7 +9,7 @@ import { Snackbar } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import Alert from "@mui/material/Alert";
 
-export var ordersSize = 0;
+export var ordersSize = 8;
 
 
 export const OrdersPage = () => {
@@ -21,7 +21,7 @@ export const OrdersPage = () => {
   const [reason, setReason] = useState(''); 
   const [password, setPassword] = useState(''); 
   const [orderToCancel, setOrderToCancel] = useState(0);
-  const [orderOpen, setOrderOpen] = useState(false);
+  const [orderOpen, setOrderOpen] = useState(true);
   const [ansStatus, setAnsStatus] = useState("normal"); 
   const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
@@ -83,8 +83,6 @@ export const OrdersPage = () => {
       try {
         var response = await api.getOrders(user?.id, user?.password);
         setOrders(response.data); // Define os pedidos no estado
-        ordersSize = orders.length;
-        console.log(ordersSize);
         response = await api.getAllItems();
         setItems(response.data);
       } catch (error) {
@@ -104,7 +102,7 @@ export const OrdersPage = () => {
 
   }, [count, ansStatus]);
 
-  const handleConfirmCancelamento = () => {
+  const handleConfirmCancelamento = async() => {
       if (
         reason === "" 
       ) {
@@ -118,7 +116,7 @@ export const OrdersPage = () => {
         return;
       }
       try {
-        //await api.cancelOrder(user?.id, orderToCancel, password, reason);
+        await api.cancelOrder(user?.id, orderToCancel, password, reason);
         setStatus("funcionou");
       }
       
@@ -151,7 +149,7 @@ export const OrdersPage = () => {
         <div className="back-button-cancPg" onClick={goBackToHome}>Voltar</div>
         <div className="app-name-cancPg">iBreno ;) </div>
         <div className="user-info-cancPg">
-          <div className="user-name-cancPg">{user?.nome}</div>
+          <div className="user-name-cancPg">{user?.email.split("@")[0]}</div>
           <img src="src/app/OrderCancellation/pages/mobolado.png" alt="Ícone do usuário" className="user-icon-cancPg" />
           <button className="profile-button-cancPg"></button>
         </div>
@@ -181,11 +179,11 @@ export const OrdersPage = () => {
                   <div className="action-left-cancPg">
                     <div className="status-cancPg">
                       Status: {order.status === "Cancelado" ? (
-                        <span className="status-cancelado-cancPg">Cancelado</span>
+                        <span className="status-Cancelado-cancPg">Cancelado</span>
                       ) : order.status === "Aceito" ? (
-                        <span className="status-aceito-cancPg">Aceito</span>
+                        <span className="status-Aceito-cancPg">Aceito</span>
                       ) : (
-                        <span className="status-pendente-cancPg">{order.status}</span>
+                        <span className="status-Pendente-cancPg">{order.status}</span>
                       )}
                     </div>
                     <div className="time-cancPg">Tempo estimado: {order.time}</div>
