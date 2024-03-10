@@ -17,7 +17,9 @@ class RestaurantModel {
     });
 
     if (existingRestaurant) {
-      throw new DuplicateFieldError('Restaurant already registered');
+      throw new DuplicateFieldError(
+        'Falha no cadastro! Restaurante já cadastrado'
+      );
     }
 
     const restaurant = await prisma.restaurant.create({
@@ -57,7 +59,9 @@ class RestaurantModel {
     });
 
     if (existingRestaurant) {
-      throw new DuplicateFieldError('Restaurant already registered');
+      throw new DuplicateFieldError(
+        'Falha ao atualizar cadastro! Dados já existem'
+      );
     }
 
     const restaurant = await prisma.restaurant.findFirst({ where: { id } });

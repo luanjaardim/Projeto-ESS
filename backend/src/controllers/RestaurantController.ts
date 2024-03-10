@@ -58,7 +58,9 @@ class RestaurantController {
 
     try {
       await RestaurantModel.update(Number(id), name, CNPJ, email, password);
-      return res.status(200).json({ message: 'Restaurant updated' });
+      return res
+        .status(200)
+        .json({ message: 'Cadastro atualizado com sucesso!' });
     } catch (error: any) {
       return res.status(error.statusCode).json({ message: error.message });
     }

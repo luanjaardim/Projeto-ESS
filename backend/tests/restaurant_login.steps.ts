@@ -7,13 +7,12 @@ import jwt from 'jsonwebtoken';
 
 const feature = loadFeature('tests/features/restaurant_login.feature');
 const request = supertest(app);
-const User = async (email: string, password: string) => {return{
+const Restaurant = async (email: string, password: string) => {return{
   id: 1, // Supondo que o ID seja 1
   password: await bcrypt.hash(password, 10),
   name: 'Emilly Brito', // Nome de exemplo
   email: email,
   cnpj: '123.456.789-00', // CNPJ de exemplo
-  address: 'Rua Exemplo, 123', // Endereço de exemplo
 }};
 
 
@@ -28,7 +27,7 @@ defineFeature(feature, (test) => {
   given(/^existe um restaurante cadastrado com email "(.*)" e com senha "(.*)"$/,
       async (email: string, password: string) => {
         // Simulate restaurant existence in database
-        prismaMock.restaurant.findUnique.mockResolvedValue(await User(email, password));
+        prismaMock.restaurant.findUnique.mockResolvedValue(await Restaurant(email, password));
       }
     );
 
@@ -56,13 +55,8 @@ defineFeature(feature, (test) => {
       /^uma requisição POST é enviada para "(.*)" com os dados "(.*)" e "(.*)"$/,
       async (url: string, email: string, password: string) => {
         // Simulate sending login request
-        //prismaMock.restaurant.findUnique.mockResolvedValue({ cvmfc })
+        // prismaMock.restaurant.findUnique.mockResolvedValue({ cvmfc })
         response = await request.post(url).send({ email, password });
-
-        const restaurant = await prismaMock.restaurant.findUnique({
-          where: { email }
-        });
-        //console.log(response.body);
       }
     );
   
@@ -70,7 +64,7 @@ defineFeature(feature, (test) => {
   when(
     /^uma requisição GET é enviada para "(.*)"$/,
     async (url: string) => {
-      const usuario = await User("email","password");
+      const usuario = await Restaurant("email","password");
       //const restaurant = await prisma.restaurant.findUnique(where: )
       const validtoken =  jwt.sign({ usuarioId: usuario.id }, process.env.JWT_SECRET as string, { expiresIn: '18h' });
       const invalidtoken =  jwt.sign({ usuarioId: usuario.id }, "chave_incorreta", { expiresIn: '18h' });
@@ -165,7 +159,6 @@ defineFeature(feature, (test) => {
   const thenStatusIsReturned = (then: DefineStepFunction) =>
     then(/^é retornado status "(.*)"$/, async (status: string) => {
       // Verify if expected status is returned
-      //console.log(response.status);
       expect(response.status).toBe(parseInt(status, 10));
     });
 
@@ -173,7 +166,7 @@ defineFeature(feature, (test) => {
     then(/^o login é realizado com sucesso$/, async () => {
       // Verify if login succeeds
       //console.log(response.body);
-      expect(response.body).toEqual(expect.objectContaining({ message: 'Login bem sucedido' }));
+      expect(response.body.message).toEqual('Login bem-sucedido' );
     });
 
   const thenLoginFails = (then: DefineStepFunction) =>

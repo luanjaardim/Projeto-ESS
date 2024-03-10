@@ -1,0 +1,33 @@
+import { ItemOfRestaurant } from '../ItemOfRestaurant/index';
+import { useEffect, useState } from 'react';
+import APIService from '../../../../shared/components/APIService/index';
+import { transformIntoId } from '../../pages/HomePage/index';
+import './styles.css';
+
+export const RestaurantItemsList = ({ restaurant }) => {
+    const api = new APIService();
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        const getRestaurantItems = async () => {
+            const items = await api.getItems(restaurant.id);
+            setItems(items.data);
+        };
+        getRestaurantItems().catch((error) => console.error(error));
+    }, [restaurant.id]);
+
+    return (
+        <div className="container_of_restaurant_items">
+            <h2 className="restaurant_name" id={transformIntoId(restaurant.name, false)}>
+                {restaurant.name}
+            </h2>
+            <ul className="list_of_restaurant_items">
+                {items.map((item) => (
+                    <li key={item.id}>
+                        <ItemOfRestaurant restaurantName={restaurant.name} item={item} />
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};

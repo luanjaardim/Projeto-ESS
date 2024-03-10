@@ -4,6 +4,7 @@ import app from '../src/app';
 import { prismaMock } from '../setupTests';
 import { Orders, Client } from '@prisma/client';
 import prisma from '../src/database';
+import bcrypt from 'bcrypt';
 
 const feature = loadFeature(
   'tests/features/order_cancellation.backend.feature'
@@ -32,9 +33,10 @@ defineFeature(feature, (test) => {
         cpf: string,
         address: string
       ) => {
+        const encryptedPassword = await bcrypt.hash(password, 10);
         const client_1 = {
           id: parseInt(clientId, 10),
-          password: password,
+          password: encryptedPassword,
           name: name,
           email: email,
           cpf: cpf,
@@ -75,13 +77,13 @@ defineFeature(feature, (test) => {
       }
     );
 
-  const reqGet = (when: DefineStepFunction) =>
+  const reqPost = (when: DefineStepFunction) =>
     when(
-      /^uma requisição de GET com senha "(.*)" é enviada para "(.*)".$/,
+      /^uma requisição de POST com senha "(.*)" é enviada para "(.*)".$/,
       async (password: string, url: string) => {
         prismaMock.orders.findMany.mockResolvedValue(orders);
         prismaMock.client.findUnique.mockResolvedValue(clients[0]);
-        response = await request.get(url).send({ password });
+        response = await request.post(url).send({ password });
       }
     );
 
@@ -225,7 +227,7 @@ defineFeature(feature, (test) => {
     givenUserExist(given);
     givenOrderExist(and);
     givenOrderExist(and);
-    reqGet(when);
+    reqPost(when);
     ansStatusMustBe(then);
     ansMustContain(and);
     ansMustContain(and);
@@ -240,7 +242,7 @@ defineFeature(feature, (test) => {
     givenUserExist(given);
     givenOrderExist(and);
     givenOrderExist(and);
-    reqGet(when);
+    reqPost(when);
     ansStatusMustBe(then);
     and(
       /^uma mensagem de "(.*)" é retornada com id de usuário "(.*)".$/,
@@ -268,11 +270,11 @@ defineFeature(feature, (test) => {
     givenOrderExist(and);
 
     when(
-      /^uma requisição de GET com senha "(.*)" é enviada para "(.*)".$/,
+      /^uma requisição de POST com senha "(.*)" é enviada para "(.*)".$/,
       async (password: string, url: string) => {
         prismaMock.orders.findMany.mockResolvedValue(orders);
         prismaMock.client.findUnique.mockResolvedValue(null);
-        response = await request.get(url).send({ password });
+        response = await request.post(url).send({ password });
       }
     );
 

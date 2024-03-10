@@ -1,15 +1,21 @@
 import { Request, Response } from 'express';
 import OrderCancellationModel from '../models/OrderCancellationModel';
+import ClientLoginModel from '../models/ClientLoginModel';
+import bcrypt from 'bcrypt';
 
 class OrderCancellationController {
   static async index(req: Request, res: Response) {
     const { clientId } = req.params;
     const { password } = req.body;
+    var passwordIsCorrect: any;
     try {
       const client = await OrderCancellationModel.getClientById(
         Number(clientId)
       );
-      if (client && client.password == password) {
+      if (client) {
+        passwordIsCorrect = await bcrypt.compare(password, client.password);
+      }
+      if (client && passwordIsCorrect) {
         const resData = await OrderCancellationModel.index(Number(clientId));
         return res.status(200).json(resData);
       } else {
@@ -33,6 +39,7 @@ class OrderCancellationController {
     const clientId = req.params.clientId;
     const orderId = req.params.orderId;
     const { password, reason } = req.body;
+    var passwordIsCorrect: any;
     try {
       const client = await OrderCancellationModel.getClientById(
         Number(clientId)
@@ -40,14 +47,20 @@ class OrderCancellationController {
       const order = await OrderCancellationModel.orderExistence(
         Number(orderId)
       );
+      const timeFlag =
+        order &&
+        parseInt(order.time[0], 10) < 1 &&
+        parseInt(order.time[1], 10) < 5;
 
-      const timeFlag = order && parseInt(order.time[0], 10) < 5;
+      if (client) {
+        passwordIsCorrect = await bcrypt.compare(password, client.password);
+      }
 
       if (
         order &&
         order.status == 'Pendente' &&
         client &&
-        client.password === password &&
+        passwordIsCorrect &&
         timeFlag
       ) {
         const status = 'Cancelado';
@@ -57,8 +70,8 @@ class OrderCancellationController {
           String(status)
         );
         await OrderCancellationModel.insert(
-          Number(orderId),
           Number(clientId),
+          Number(orderId),
           String(reason)
         );
         return res

@@ -9,12 +9,21 @@ class RestaurantLoginController {
     const { email, password } = req.body;
 
     try {
-      const { status, restaurant } = await RestaurantLoginModel.authenticate(email, password);
+      const { status, restaurant } = await RestaurantLoginModel.authenticate(
+        email,
+        password
+      );
       if (status === 'OK') {
         // Geração do token de autenticação
-        const token = jwt.sign({ restaurantId: restaurant.id }, 'chave_secreta_token', { expiresIn: '18h' });
+        const token = jwt.sign(
+          { restaurantId: restaurant.id },
+          'chave_secreta_token',
+          { expiresIn: '18h' }
+        );
 
-        res.status(200).json({ message: 'Login bem-sucedido', token });
+        res
+          .status(202)
+          .json({ message: 'Login bem-sucedido', header: token, restaurant });
       }
     } catch (error: any) {
       res.status(401).json({ error: 'Login falhou' });
@@ -22,9 +31,11 @@ class RestaurantLoginController {
   }
 
   static async verifyToken(req: Request, res: Response, next: Function) {
-    const authToken = req.headers.authorization;
+    const authToken = req.body.header;
     if (!authToken) {
-      return res.status(401).json({ error: 'Token de autorização não fornecido' });
+      return res
+        .status(401)
+        .json({ error: 'Token de autorização não fornecido' });
     }
 
     try {
