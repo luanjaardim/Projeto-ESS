@@ -119,7 +119,7 @@ export const LoginClientPage = () => {
             text="Login"
             type="submit"
           />
-          <Link to = '/recover/client'>
+          <Link to = '/clients/recover'>
             <button className="recPasswordButton">Esqueci a Senha</button>
           </Link>
         </div>
