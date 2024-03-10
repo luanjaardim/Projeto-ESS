@@ -5,30 +5,29 @@ Given("eu estou na página {string}", (page: string) => {
 });
 
 Given(
-  "existe um cliente com email {string} e com senha {string}",
+  "existe um restaurante com email {string} e com senha {string}",
   (email: string, password: string) => {
     cy.request({
       method: "GET",
-      url: "http://localhost:5001/clients",
+      url: "http://localhost:5001/restaurants",
     }).then((response) => {
-      response.body.forEach((client: any) => {
-        if (client.email === email) {
+      response.body.forEach((restaurant: any) => {
+        if (restaurant.email === email) {
           cy.request({
             method: "DELETE",
-            url: "http://localhost:5001/clients/" + client.id,
+            url: "http://localhost:5001/restaurants/" + restaurant.id,
           });
         }
       });
 
       cy.request({
         method: "POST",
-        url: "http://localhost:5001/clients",
+        url: "http://localhost:5001/restaurants",
         body: {
           name: "Caio",
-          cpf: "123.456.789-00",
+          CNPJ: "34.677.075/0001-23",
           email,
           password,
-          address: "Rua ESS - Software",
         },
       });
     });
@@ -36,17 +35,17 @@ Given(
 );
 
 Given(
-  "não existe cliente com {string} {string}",
+  "não existe restaurante com {string} {string}",
   (field: string, value) => {
     cy.request({
       method: "GET",
-      url: "http://localhost:5001/clients",
+      url: "http://localhost:5001/restaurants",
     }).then((response) => {
-      response.body.forEach((client: any) => {
-        if (client[field] === value) {
+      response.body.forEach((restaurant: any) => {
+        if (restaurant[field] === value) {
           cy.request({
             method: "DELETE",
-            url: "http://localhost:5001/clients/" + client.id,
+            url: "http://localhost:5001/restaurants/" + restaurant.id,
           });
         }
       });

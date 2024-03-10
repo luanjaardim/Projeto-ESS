@@ -95,6 +95,7 @@ export const LoginRestaurantPage = () => {
         <div>
           <input
             type="email"
+            id="email"
             placeholder="E-mail"
             value={email}
             className="formFieldLogin"
@@ -105,6 +106,7 @@ export const LoginRestaurantPage = () => {
         <div>
           <input
             type="password"
+            id="senha"
             placeholder="Senha"
             value={password}
             className="formFieldLogin"
@@ -116,6 +118,7 @@ export const LoginRestaurantPage = () => {
             onClick={handleLogin}
             icon={FaCheck}
             color="#54b544"
+            id="Login"
             text="Login"
             type="submit"
           />
