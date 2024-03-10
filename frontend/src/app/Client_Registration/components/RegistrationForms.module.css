@@ -1,0 +1,51 @@
+.form{
+  width: 100%;
+  margin: 2em 0;
+}
+
+.questions{
+  display:flex;
+  flex-direction:row;
+}
+
+.questionsleft{
+padding-right: 30%;
+
+}
+
+.questions-right{
+  padding-left: 30%;
+}
+
+.botao{
+  padding-left: 38%;
+}
+
+.form_control{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+  background-color: aliceblue;
+  padding: 5%;
+  height: 50vh;
+  margin-top: 10vh;
+  border-radius: 3%;
+}
+
+.form_control label{
+  margin-bottom: .6em;
+  font-weight:bold;
+  
+}
+
+.form_control input{
+  padding: .7em;
+  border-radius: 4%;
+  border:none;
+  height: 40px; /* Defina a altura desejada aqui */
+  width: 280px;
+}
+
+.form_control input::placeholder{
+  color: #7b7b7b;
+}
