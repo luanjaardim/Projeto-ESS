@@ -75,8 +75,8 @@ const Client_RegistrationForm = ({btnText}) => {
     {isModalOpen && (
       <Modal
         setIsOpen={setIsModalOpen}
-        title="User Criado "
-        modalBody="Cliente cadastrado"
+        title="Cadastro realizado com sucesso"
+        modalBody=""
         leftButton={{
           backgroundColor: "rgb(0,0,0,0.2)",
           color: "black",
@@ -91,7 +91,7 @@ const Client_RegistrationForm = ({btnText}) => {
   {isModalOpen2 && (
       <Modal
         setIsOpen={setIsModalOpen2}
-        title="Erro"
+        title="Cadastro mal-sucedido"
         modalBody="Cliente já cadastrado"
         leftButton={{
           backgroundColor: "rgb(0,0,0,0.2)",
@@ -115,6 +115,7 @@ const Client_RegistrationForm = ({btnText}) => {
             type="text"
             placeholder="Nome"
             name="name"
+            id="nome"
             className={styles.form}
             onChange={handleFormFieldChange}    
           />
@@ -122,6 +123,7 @@ const Client_RegistrationForm = ({btnText}) => {
           <input
             type="text"
             name="cpf"
+            id="cpf"
             className={styles.form}
             onChange={handleFormFieldChange}
           placeholder= "Insira seu CPF"   
@@ -132,6 +134,7 @@ const Client_RegistrationForm = ({btnText}) => {
             type="text"
             placeholder="E-mail"
             name="email"
+            id="email"
             className={styles.form}
             onChange={handleFormFieldChange}  
           />
@@ -142,6 +145,7 @@ const Client_RegistrationForm = ({btnText}) => {
         type="text"
         placeholder= "Insira seu Endereço" 
         name ="address"
+        id = "endereço"
         className={styles.form}
         onChange={handleFormFieldChange}           
         />
@@ -151,6 +155,7 @@ const Client_RegistrationForm = ({btnText}) => {
             type="password"
             placeholder="Senha"
             name="password"
+            id="senha"
             className={styles.form}
             onChange={handleFormFieldChange}   
         />
