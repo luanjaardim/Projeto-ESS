@@ -4,11 +4,12 @@ import RestaurantController from '../controllers/RestaurantController';
 //import ShoppingCartController from '../controllers/ShoppingCartController';
 import OrderCancellationController from '../controllers/OrderCancellationController';
 import OrdersController from '../controllers/OrdersController';
-import RestaurantModel from '../models/RestaurantModel';
 import ShoppingCartController from '../controllers/ShoppingCartController';
 import ClientLoginController from '../controllers/ClientLoginController';
 import ClientController from '../controllers/ClientController';
-import ItemsController from '../controllers/ItemsController';
+import RecoverPasswordClientController from '../controllers/RecoverPasswordClientController';
+import RecoverPasswordRestaurantController from '../controllers/RecoverPasswordRestaurantController';
+import ItemsController from '../controllers/ItemsController'
 
 const router = Router();
 
@@ -74,5 +75,17 @@ router.put(
   ClientController.validate('update'),
   ClientController.update
 );
+
+router.post('/restaurants/recover', RecoverPasswordRestaurantController.recoverPassword)
+
+router.post('/restaurants/recover/code', RecoverPasswordRestaurantController.recoverPasswordCode)
+
+router.post('/restaurants/recover/update',  RecoverPasswordRestaurantController.updatePassword)
+
+router.post('/clients/recover', RecoverPasswordClientController.recoverPassword)
+
+router.post('/clients/recover/code', RecoverPasswordClientController.recoverPasswordCode)
+
+router.post('/clients/recover/update',  RecoverPasswordClientController.updatePassword)
 
 export default router;

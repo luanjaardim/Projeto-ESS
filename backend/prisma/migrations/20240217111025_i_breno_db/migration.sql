@@ -5,6 +5,7 @@ CREATE TABLE `Restaurant` (
     `cnpj` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
+    `code` VARCHAR(191) NULL,
 
     UNIQUE INDEX `Restaurant_cnpj_key`(`cnpj`),
     UNIQUE INDEX `Restaurant_email_key`(`email`),
@@ -29,6 +30,7 @@ CREATE TABLE `Client` (
     `email` VARCHAR(191) NOT NULL,
     `cpf` VARCHAR(191) NOT NULL,
     `address` VARCHAR(191) NOT NULL,
+    `code` VARCHAR(191) NULL,
 
     UNIQUE INDEX `Client_email_key`(`email`),
     UNIQUE INDEX `Client_cpf_key`(`cpf`),

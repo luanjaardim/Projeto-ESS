@@ -4,13 +4,15 @@ import DuplicateFieldError from '../errors/DuplicateFieldError';
 import NotFoundError from '../errors/NotFoundError';
 import { throws } from 'assert';
 import { error } from 'console';
+
 class ClientModel {
   static async insert(
     password : string,
     name : string,
     cpf : string,
     email : string,
-    address : string
+    address : string,
+    code: string = "00000"
   ) {
       const Exist_Client = await prisma.client.findFirst({
         where: {
@@ -29,6 +31,7 @@ class ClientModel {
           cpf,
           email,
           address,
+          code
         },
       });
      

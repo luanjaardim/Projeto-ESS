@@ -16,7 +16,7 @@ model Restaurant {
   cnpj      String      @unique
   email     String      @unique
   password  String
-
+  code      String
   items Item[]
 }
 
@@ -37,6 +37,7 @@ model Client {
   email       String    @unique
   cpf         String    @unique
   address     String
+  code        String
 
   Orders      Orders[]
 }
