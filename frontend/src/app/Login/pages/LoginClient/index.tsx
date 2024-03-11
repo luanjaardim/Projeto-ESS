@@ -25,6 +25,7 @@ export const LoginClientPage = () => {
   };
 
   const handleLogin = async(e) => {
+    
     e.preventDefault();
   //alert(`Tentativa de login do cliente com email: ${email} e senha: ${password}`);
 
@@ -42,7 +43,7 @@ export const LoginClientPage = () => {
 
   api.postLoginClient(userData.email, userData.password)
     .then(response => {
-
+      console.log("teste")
       const token = response.data.header;
       const client = response.data.client;
       console.log('Client recebido:', token);
@@ -82,8 +83,8 @@ export const LoginClientPage = () => {
   }
 
   return (
-    <div style={{backgroundColor:"#fff13e"}}>
-      <div style={{backgroundColor:"#eff1ed"}}>
+    <div style={{backgroundColor:"#fff13e", width: "100%", height: "100%"}}>
+      <div style={{backgroundColor:"#fff13e", padding: "2rem"}}>
           <Link to = '/*'>
             <button className="backButton">Voltar</button>
           </Link>

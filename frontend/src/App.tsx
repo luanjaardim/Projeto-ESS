@@ -6,7 +6,12 @@ import { InitialPage } from './app/Login/pages/InitialPage/index';
 import { LoginClientPage } from "./app/Login/pages/LoginClient/index";
 import { LoginRestaurantPage } from "./app/Login/pages/LoginRestaurant/index";
 import { OrdersPage } from './app/OrderCancellation/pages/index';
-
+import { RecoverPasswordPage } from './app/RecoverPassword/index';
+import { CodePage } from "./app/RecoverPassword/Code";
+import { NewPasswordPage } from "./app/RecoverPassword/NewPassword";
+import { RecoverPasswordClientPage } from './app/RecoverPasswordClient/index';
+import { CodeClientPage } from "./app/RecoverPasswordClient/CodeClient";
+import { NewPasswordClientPage } from "./app/RecoverPasswordClient/NewPasswordClient";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +21,30 @@ const router = createBrowserRouter([
   {
     path: "/clients/login",
     Component: LoginClientPage,
+  },
+  {
+    path: "/restaurants/recover",
+    Component: RecoverPasswordPage,
+  },
+  {
+    path: "/restaurants/recover/code",
+    Component: CodePage,
+  },
+  {
+    path: "/restaurants/recover/update",
+    Component: NewPasswordPage,
+  },
+  {
+    path: "/clients/recover",
+    Component: RecoverPasswordClientPage,
+  },
+  {
+    path: "/clients/recover/code",
+    Component: CodeClientPage,
+  },
+  {
+    path: "/clients/recover/update",
+    Component: NewPasswordClientPage,
   },
   {
     path: "/restaurants/login",
