@@ -16,15 +16,16 @@ export const white = '#EFF1ED';
 export const black = '#131200';
 
 //application base colors
-export const colorPageBackground = '#fffaba'; //fffaba e9e9e9
-export const colorRestaurantBlock = '#bdbebd';
-export const colorItemBlock = '#949494';
-export const colorInnerItemBlock = '#686868';
+export const colorPageBackgroundDark = black; //fffaba e9e9e9 '#bdbebd'
+export const colorPageBackgroundWhite = white; //fffaba e9e9e9 '#bdbebd'
+export const colorRestaurantBlock = '#fffaba';
+export const colorItemBlock = '#fc5353';
+export const colorInnerItemBlock = white;
 export const colorToggleShoppingCart = green;
 export const colorShoppingCartBackground = '#e9e9e9';
 export const colorShoppingCartItems = '#bdbebd';
-export const colorSPClearButton = '#949494';
-export const colorSPFinishButton = '#686868';
+export const colorSPClearButton = red;
+export const colorSPFinishButton = green;
 export const colorGoToFinnishedOrders = blue;
 
 export const transformIntoId = (name: string, with_hash: boolean) => {
@@ -36,6 +37,8 @@ export const HomePage = () => {
     const [restaurants, setRestaurants] = useState([]);
     const { user, setCartContext } = useContext(UserContext);
     const [showCart, setShowCart] = useState(false);
+    const [background, setBackground] = useState(colorPageBackgroundDark);
+    const [backgroundInverse, setBackgroundInverse] = useState(colorPageBackgroundWhite);
 
     useEffect(() => {
         const fetchRestaurants = async () => {
@@ -61,10 +64,15 @@ export const HomePage = () => {
         navigate('/order');
     }
 
+    const changeTheme = () => {
+        setBackground(backgroundInverse);
+        setBackgroundInverse(background);
+    };
+
     return (
-        <div style={{background: colorPageBackground}}>
+        <div style={{background: background}}>
             <div className="top_container">
-                <h1 className="title_restaurants" id="restaurants">Restaurants</h1>
+                <h1 className="title_restaurants" id="restaurants" style={{color: backgroundInverse}}>Restaurants</h1>
                 <div className="top_inner_container">
                     <button className="top_button" style={{background: colorGoToFinnishedOrders}}
                             onClick={goToOrder}> Finished Orders
@@ -74,6 +82,7 @@ export const HomePage = () => {
                         <img src="../src/app/Shopping_cart/assets/icons/cart.png"
                              alt="Shopping Cart" style={{width:'40px', height:'30px'}}/>
                     </button>
+                    <button className="button_theme_toggle" style={{color: background, background: backgroundInverse}} onClick={changeTheme}></button>
                 </div>
             </div>
             <div className="restaurants_and_toggle_shopping_cart">
