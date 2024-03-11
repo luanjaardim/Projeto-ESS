@@ -93,8 +93,15 @@ Then("continuo na página {string}", (url: string) => {
 
 //Mock
 Given(
-  "estou logado como administrador do restaurante {string} na tela {string}",
-  (restaurant: string, page: string) => {
-    cy.visit(page);
+  "estou logado como administrador do restaurante {string} com senha {string} na tela {string}",
+  (email: string, password: string, url: string) => {
+    cy.visit("/restaurants/login");
+    cy.get('input[type="email"]').type(email);
+    //type the password and press enter
+    cy.get('input[type="password"]').type(password + "{enter}");
+
+    cy.wait(500);
+
+    cy.url().should("contain", url);
   }
 );
