@@ -83,7 +83,7 @@ const RestaurantRegistration = () => {
   };
 
   return (
-    <>
+    <div className={styles.page_background}>
       <h1 className={styles.title}>Cadastre seu restaurante</h1>
       <div className={styles.pageWrapper}>
         {isModalOpen && (
@@ -170,7 +170,7 @@ const RestaurantRegistration = () => {
           </Alert>
         </Snackbar>
       </div>
-    </>
+    </div>
   );
 };
 

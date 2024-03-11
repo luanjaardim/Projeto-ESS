@@ -95,7 +95,7 @@ const RestaurantProfilePage = () => {
   };
 
   return (
-    <>
+    <div className={styles.page_background}>
       {isModalOpen && (
         <Modal
           setIsOpen={setIsModalOpen}
@@ -184,7 +184,7 @@ const RestaurantProfilePage = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
-    </>
+    </div>
   );
 };
 

@@ -173,7 +173,7 @@ const client_profile = () => {
               <IconButton
                 icon={FaRegTrashAlt}
                 color={isEditing ? "rgb(0,0,0,0.2)" : "#FD3939"}
-                text="Excluir restaurante"
+                text="Excluir Cliente"
                 type="button"
                 onClick={() => setIsModalOpen(true)}
                 disabled={isEditing}

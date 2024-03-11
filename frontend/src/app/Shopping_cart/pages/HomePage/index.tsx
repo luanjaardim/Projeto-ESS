@@ -87,7 +87,7 @@ export const HomePage = () => {
             </div>
             <div className="restaurants_and_toggle_shopping_cart">
                 {user === null ? (
-                    <div>Not logged</div>
+                    <div style={{color: backgroundInverse}}>Not logged</div>
                 ) : (
                     <ul>
                         {
