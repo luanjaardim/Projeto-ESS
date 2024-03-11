@@ -6,16 +6,15 @@ import { InitialPage } from './app/Login/pages/InitialPage/index';
 import { LoginClientPage } from "./app/Login/pages/LoginClient/index";
 import { LoginRestaurantPage } from "./app/Login/pages/LoginRestaurant/index";
 import { OrdersPage } from './app/OrderCancellation/pages/index';
-import { Client_RegistrationPage } from "./app/Client_Registration/pages/client_registration";
-import  client_profile  from "./app/Client_Registration/pages/client_profile";
-
+import { Client_RegistrationPage } from './app/Client_Registration/pages/client_registration/index';
+import client_profile from "./app/Client_Registration/pages/client_profile";
 
 const router = createBrowserRouter([
   {
     path: "/*",
-    Component: client_profile,
+    Component: InitialPage,
   },
-/*  {
+  {
     path: "/clients/login",
     Component: LoginClientPage,
   },
@@ -28,7 +27,7 @@ const router = createBrowserRouter([
     Component: HomePage,
   },
   {
-    path: "/restaurant/registration",
+    path: "/restaurants/registration",
     Component: RestaurantRegistrationPage,
   },
   {
@@ -36,10 +35,18 @@ const router = createBrowserRouter([
     Component: RestaurantProfilePage,
   },
   {
-    path: "order",
+    path: "/order",
     Component: OrdersPage,
+  },
+  {
+    path: "/clients/registration",
+    Component: Client_RegistrationPage,
+  },
+  {
+    path: "/clients/profile",
+    Component: client_profile,
   }
-  */
+
 ]);
 
 export default function App() {

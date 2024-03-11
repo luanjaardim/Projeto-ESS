@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import IconButton from '../../../../shared/components/IconButton';
 import { FaRegTrashAlt, FaSave } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
-import  Modal from '../../components/alert_modal'
+import Modal from '../../../restaurant_registration/components/AlertModal';
 
 const client_profile = () => {
   const [isEditing, setIsEditing] = useState(false);

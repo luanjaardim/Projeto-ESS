@@ -13,6 +13,28 @@
   color:#7b7b7b;
 }
 
-body{
+.corpo{
   background-color: #FFF13E;
+}
+.form{
+  width: 100%;
+  margin: 2em 0;
+}
+
+.questions{
+  display:flex;
+  flex-direction:row;
+}
+
+.questionsleft{
+padding-right: 30%;
+
+}
+
+.questions-right{
+  padding-left: 30%;
+}
+
+.botao{
+  padding-left: 38%;
 }
