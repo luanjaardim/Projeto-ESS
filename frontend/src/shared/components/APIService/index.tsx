@@ -97,6 +97,17 @@ export default class APIService {
       return this.api.post('/clients/login', {email: email, password: password});
   }
 
+  postPasswordRecovery(email: String) {
+    return this.api.post('/clients/recover', {email: email});
+}
+  postCode(code: String) {
+    return this.api.post('/clients/recover/code', {code: code});
+}
+
+  postNewPassword(password: String) {
+  return this.api.post('/clients/recover/update', {password: password});
+}
+
   postTokenClient(token: String) {
       return this.api.post('/clients/home', {header: 'Bearer ' + token});
   }
