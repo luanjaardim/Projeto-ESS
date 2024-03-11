@@ -152,7 +152,7 @@ export const OrdersPage = () => {
         <div className="user-info-cancPg">
           <div className="user-name-cancPg">{user?.email.split("@")[0]}</div>
           <img src="src/app/OrderCancellation/pages/mobolado.png" alt="Ícone do usuário" className="user-icon-cancPg" />
-          <button className="profile-button-cancPg"></button>
+          <button className="profile-button-cancPg" onClick={() => navigate('/clients/profile')}></button>
         </div>
       </header>
       <main className="order-list-cancPg">
