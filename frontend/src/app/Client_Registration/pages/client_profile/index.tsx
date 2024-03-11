@@ -17,6 +17,7 @@ import Modal from '../../../restaurant_registration/components/AlertModal';
 const client_profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [editedData, setEditedData] = useState({});
   const { user, setUserContext } = useContext<any>(UserContext);
   //const [isEmailValid, setIsEmailValid] = useState(true);
@@ -41,7 +42,9 @@ const client_profile = () => {
         .updateClient(parseInt(user.id), editedData)
         .then((response) => {
           console.log(response);
+          setIsModalOpen2(true)
           setEditedData({});
+
           //setSnackbarMessage(response.data.message);
           //setSnackBarSeverity("success");
           //setIsSnackbarOpen(true);
@@ -113,6 +116,20 @@ const client_profile = () => {
           }}
         />
       )}
+
+{isModalOpen2 && (
+        <Modal
+          setIsOpen={setIsModalOpen2}
+          title="Cadastro atualizado com sucesso!"
+          modalBody=""
+          leftButton={{
+            backgroundColor: "rgb(0,0,0,0.2)",
+            color: "black",
+            text: "Cancelar",
+            callback: () => {},
+          }}
+        />
+      )}
         <div className={styles.index_container}>
           <div>
             <h1>Perfil do Usuário</h1>
@@ -121,8 +138,8 @@ const client_profile = () => {
               <Input
                 type="text"
                 text="Nome"
-                name="name"
-                id='name'
+                name="nome"
+                id='nome'
                 placeholder={user?.name || "Nome do restaurante"}
                 disabled={!isEditing}
                 onChange={handleFieldEdition} />
