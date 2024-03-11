@@ -8,6 +8,15 @@ interface Restaurant {
   password?: string;
 }
 
+interface Client {
+  password?: string;
+  name?: string;
+  cpf?: string;
+  email?: String;
+  address?: String;
+}
+
+
 
 
 export default class APIService {
@@ -127,7 +136,7 @@ export default class APIService {
     return this.api.post("/clients", client);
   }
 
-  deleteClient(restaurantId: number) {
+  deleteClient(clientId: number) {
     return this.api.delete(`/clients/${clientId}`);
   }
 
