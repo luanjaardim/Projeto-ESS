@@ -4,7 +4,7 @@ export default class ItemsModel {
 
     static async indexAllItems(): Promise<any[]> {
         return await prisma.item.findMany({
-            select: { id: true, name: true, price: true },
+            select: { id: true, name: true, price: true, restaurantId: true },
         });
     }
 

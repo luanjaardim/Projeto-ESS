@@ -64,7 +64,7 @@ export const HomePage = () => {
     return (
         <div style={{background: colorPageBackground}}>
             <div className="top_container">
-                <h1 className="title" id="restaurants">Restaurants</h1>
+                <h1 className="title_restaurants" id="restaurants">Restaurants</h1>
                 <div className="top_inner_container">
                     <button className="top_button" style={{background: colorGoToFinnishedOrders}}
                             onClick={goToOrder}> Finished Orders
@@ -72,7 +72,7 @@ export const HomePage = () => {
                     <button className="top_button" id="shopping_cart_button" style={{background: colorToggleShoppingCart}}
                             onClick={() => {setShowCart(!showCart)}}>
                         <img src="../src/app/Shopping_cart/assets/icons/cart.png"
-                             alt="Shopping Cart" style={{width:'30px', height:'30px'}}/>
+                             alt="Shopping Cart" style={{width:'40px', height:'30px'}}/>
                     </button>
                 </div>
             </div>
