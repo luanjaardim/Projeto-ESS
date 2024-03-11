@@ -42,10 +42,10 @@ Scenario: Removendo um item com 1 unidade diminuindo sua quantidade em 1
 	Then o carrinho contém "2" unidades de "Coxinha" por "10" $ cada do "Restaurante Glória Maria 2"
 
 Scenario: Finalizando um pedido
-	Given eu estou logado como "lgaj2@cin.ufpe.br" com a senha "123456" na tela "Shopping Cart"
-	And o carrinho já contém "2" unidades de "Coxinha" por "10" $ cada do "Restaurante Glória Maria 2"
-	When eu seleciono "Finish the Order"
-	And eu seleciono "Yes"
+    Given eu estou logado como "lgaj2@cin.ufpe.br" com a senha "123456" na tela "Shopping Cart"
+    And o carrinho já contém "2" unidades de "Coxinha" por "10" $ cada do "Restaurante Glória Maria 2"
+    When eu seleciono "Finish the Order"
+    And eu seleciono "Yes"
     Then o carrinho está vazio
 
 Scenario: Cancelando a finalização de um pedido
