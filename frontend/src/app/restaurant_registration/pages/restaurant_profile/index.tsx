@@ -30,12 +30,12 @@ const RestaurantProfilePage = () => {
   const api = new APIService();
 
   useEffect(() => {
-    setUserContext({
-      id: "1",
-      name: "Luquinhas",
-      email: "quentinhas@gmail.com",
-      cnpj: "24.134.488/0001-08",
-    });
+    // setUserContext({
+    //   id: "1",
+    //   name: "Luquinhas",
+    //   email: "quentinhas@gmail.com",
+    //   cnpj: "24.134.488/0001-08",
+    // });
   }, []);
 
   const handleToggleEdit = () => {
@@ -70,7 +70,7 @@ const RestaurantProfilePage = () => {
     if (user) {
       api.deleteRestaurant(parseInt(user.id)).then((response) => {
         console.log(response);
-        navigate("/restaurant/registration");
+        navigate("/restaurants/registration");
       });
     }
   };
