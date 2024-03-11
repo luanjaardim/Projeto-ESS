@@ -7,7 +7,7 @@ import styles from './index.module.css'
 export const Client_RegistrationPage = () => {
 
     return (
-        
+       
         <div className={styles.index_container}>
             <h1>Cadastrar Usuário</h1>
             <p>Preencha com seus dados</p>

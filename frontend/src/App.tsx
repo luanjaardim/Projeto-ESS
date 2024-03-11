@@ -7,6 +7,7 @@ import { LoginClientPage } from "./app/Login/pages/LoginClient/index";
 import { LoginRestaurantPage } from "./app/Login/pages/LoginRestaurant/index";
 import { OrdersPage } from './app/OrderCancellation/pages/index';
 import { Client_RegistrationPage } from './app/Client_Registration/pages/client_registration/index';
+import client_profile from "./app/Client_Registration/pages/client_profile";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,12 @@ const router = createBrowserRouter([
   {
     path: "/clients/registration",
     Component: Client_RegistrationPage,
+  },
+  {
+    path: "/clients/profile",
+    Component: client_profile,
   }
+
 ]);
 
 export default function App() {

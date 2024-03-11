@@ -9,10 +9,14 @@ import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../../Provider';
 import APIService from '../../../../shared/components/APIService';
 import { useNavigate } from 'react-router-dom';
+import IconButton from '../../../../shared/components/IconButton';
+import { FaRegTrashAlt, FaSave } from 'react-icons/fa';
+import { MdEdit } from 'react-icons/md';
+import Modal from '../../../restaurant_registration/components/AlertModal';
 
-export const client_profile = () => {
+const client_profile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  //const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedData, setEditedData] = useState({});
   const { user, setUserContext } = useContext<any>(UserContext);
   //const [isEmailValid, setIsEmailValid] = useState(true);
@@ -25,7 +29,7 @@ export const client_profile = () => {
   useEffect(() => {
     setUserContext({
       id: "1",
-      name: "Luquinhas",
+      name: "Joao",
       email: "user1@gmail.com",
       cpf: "123.865.154-87",
     });
@@ -34,14 +38,14 @@ export const client_profile = () => {
   const handleToggleEdit = () => {
     if (isEditing) {
       api
-        .updateClients(parseInt(user.id), editedData)
+        .updateClient(parseInt(user.id), editedData)
         .then((response) => {
           console.log(response);
           setEditedData({});
           //setSnackbarMessage(response.data.message);
           //setSnackBarSeverity("success");
           //setIsSnackbarOpen(true);
-          // setUserContext({ ...user, ...editedData });
+           setUserContext({ ...user, ...editedData });
         })
         .catch((error) => {
           //setSnackbarMessage(error.response.data.message);
@@ -62,7 +66,7 @@ export const client_profile = () => {
     console.log("Excluir usuário");
     console.log(user);
     if (user) {
-      api.deleteClients(parseInt(user.id)).then((response) => {
+      api.deleteClient(parseInt(user.id)).then((response) => {
         console.log(response);
         navigate("/client/registration");
       });
@@ -89,53 +93,81 @@ export const client_profile = () => {
  // };
 
     return (
-        
+      <>
+      {isModalOpen && (
+        <Modal
+          setIsOpen={setIsModalOpen}
+          title="Excluir uusário"
+          modalBody="Tem certeza que deseja excluir a conta? Todos os dados cadastrados serão excluídos permanentemente"
+          leftButton={{
+            backgroundColor: "rgb(0,0,0,0.2)",
+            color: "black",
+            text: "Cancelar",
+            callback: () => {},
+          }}
+          rightButton={{
+            backgroundColor: "#FD3939",
+            color: "white",
+            text: "Excluir",
+            callback: handleConfirmDelete,
+          }}
+        />
+      )}
         <div className={styles.index_container}>
           <div>
-              <h1>Perfil do Usuário</h1>
+            <h1>Perfil do Usuário</h1>
 
-              <div className={styles.index_forms}>
-                <Input
-                  type="text"
-                  text ="Nome"
-                  name ="name"
-                  id = 'name'
-                  placeholder={user?.name || "Nome do restaurante"}
-                  disabled={!isEditing}
-                  onChange={handleFieldEdition}     
-                  />
-                <Input
-                  type="text"
-                  text ="CPF"
-                  name ="cpf"
-                  id = 'cpf'
-                  placeholder={user?.cpf || "CPF"}
-                  disabled={!isEditing}
-                  onChange={handleFieldEdition}     
-                />
-          
-          
-                <Input
-                  type="text"
-                  text ="E-mail"
-                  name ="email"
-                  id = 'email'
-                  placeholder={user?.email || "E-mail"}
-                  disabled={!isEditing}
-                  onChange={handleFieldEdition}     
-                  />
-                 
+            <div className={styles.index_forms}>
+              <Input
+                type="text"
+                text="Nome"
+                name="name"
+                id='name'
+                placeholder={user?.name || "Nome do restaurante"}
+                disabled={!isEditing}
+                onChange={handleFieldEdition} />
+              <Input
+                type="text"
+                text="CPF"
+                name="cpf"
+                id='cpf'
+                placeholder={user?.cpf || "CPF"}
+                disabled={!isEditing}
+                onChange={handleFieldEdition} />
 
-                 
-              <div className={styles.botao}>
-                <DeleteButton text={"Excluir Conta"} />
-              </div>
 
+              <Input
+                type="text"
+                text="E-mail"
+                name="email"
+                id='email'
+                placeholder={user?.email || "E-mail"}
+                disabled={!isEditing}
+                onChange={handleFieldEdition} />
+
+              <IconButton
+                icon={isEditing ? FaSave : MdEdit}
+                text={isEditing ? "Salvar" : "Editar dados"}
+                color={isEditing ? "#54b544" : "#251fa5"}
+                id={isEditing ? "salvar" : "editar"}
+                type='button'
+                onClick={handleToggleEdit} />
+
+              <IconButton
+                icon={FaRegTrashAlt}
+                color={isEditing ? "rgb(0,0,0,0.2)" : "#FD3939"}
+                text="Excluir restaurante"
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                disabled={isEditing}
+                id="excluir" />
 
             </div>
-        </div>  
           </div>
+        </div>
         
-
+       </>
     );
 };
+
+export default client_profile;

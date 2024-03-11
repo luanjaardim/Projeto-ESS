@@ -3,8 +3,9 @@ import Input from './form/input'
 import SubmitButton from './form/submitButton'
 import { useState } from 'react';
 import APIService from '../../../shared/components/APIService/index';
-import Modal from './alert_modal/';
-
+import Modal from '../../restaurant_registration/components/AlertModal'
+import { Snackbar } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 
 interface Client {
@@ -20,10 +21,10 @@ interface Client {
 const Client_RegistrationForm = ({btnText}) => {
   
 
-  //const ClientRegistration = () => {
     const api = new APIService();
-    //const [isModalOpen, setIsModalOpen] = useState(false);
-    //const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen2, setIsModalOpen2] = useState(false);
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
     const [clientData, setClientData] = useState<Client>({
       name: "",
       address: "",
@@ -32,33 +33,16 @@ const Client_RegistrationForm = ({btnText}) => {
       password: "",
 
     });
-    //const [snackbarMessage, setSnackbarMessage] = useState<string>("Erro!");
-    //const [isEmailValid, setIsEmailValid] = useState(true);
-    //const [isCPFValid, setIsCPFValid] = useState(true);
-  
-//    const handleSnackbarClose = () => {
-//      setIsSnackbarOpen(false);
-//    };
-  
+    const navigate = useNavigate();
     const handleFormFieldChange = (event) => {
       const { name, value } = event.target;
       console.log('entrou');
       setClientData({ ...clientData, [name]: value });
   
-  //    if (name === "email") {
-   //     const emailRegex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
-   //     setIsEmailValid(emailRegex.test(value));
-   //   }
-  
- //     if (name === "cpf") {
-  //      const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
-   //     setIsCPFValid(cpfRegex.test(value));
-    //  }
     };
   
     const handleFormSubmit = async (e) => {
       e.preventDefault();
-      console.log('entrei');
       if (
         clientData.name === "" ||
         clientData.email === "" ||
@@ -66,27 +50,60 @@ const Client_RegistrationForm = ({btnText}) => {
         clientData.password === "" ||
         clientData.address === ""
       ) {
-        //setSnackbarMessage("Todos os campos devem ser preenchidos!");
-        //setIsSnackbarOpen(true);
+
         return;
       }
   
       console.log(clientData);
-      api
-        .createClients(clientData)
-        .then((response) => {
-          console.log("Cadastro realizado com sucesso");
-        })
-        .catch((error) => {
-          //setIsSnackbarOpen(true);
-          //setSnackbarMessage(error.response.data.message);
-          console.log(error.response.data.message);
-               });
-                
+      api.createClient(clientData)
+      .then((response) => {
+        setIsModalOpen(true);
+        console.log('entrei');
+      })
+      .catch((error) => {
+        setIsModalOpen2(true)
+        console.log(error.response.data.message);
+      });
+         
     };
 
 
   return (
+    
+    <>
+    <div className={styles.fundao}>
+    {isModalOpen && (
+      <Modal
+        setIsOpen={setIsModalOpen}
+        title="User Criado "
+        modalBody="Cliente cadastrado"
+        leftButton={{
+          backgroundColor: "rgb(0,0,0,0.2)",
+          color: "black",
+          text: "Ok",
+          callback: () => {
+            navigate("/clients/login");
+          },
+        }}
+      />
+    )}
+
+  {isModalOpen2 && (
+      <Modal
+        setIsOpen={setIsModalOpen2}
+        title="Erro"
+        modalBody="Cliente já cadastrado"
+        leftButton={{
+          backgroundColor: "rgb(0,0,0,0.2)",
+          color: "black",
+          text: "Ok",
+          callback: () => {
+            navigate("/clients/registration");
+          },
+        }}
+      />
+    )}
+
     <form className={styles.form_control}
       action=""
       onSubmit={handleFormSubmit}
@@ -107,8 +124,7 @@ const Client_RegistrationForm = ({btnText}) => {
             name="cpf"
             className={styles.form}
             onChange={handleFormFieldChange}
-          placeholder= "Insira seu CPF"
-         // pattern="d{3}\.\d{3}\.\d{3}-\d{2}"     
+          placeholder= "Insira seu CPF"   
           />
       
       <label htmlFor='email'>E-mail</label>
@@ -117,8 +133,7 @@ const Client_RegistrationForm = ({btnText}) => {
             placeholder="E-mail"
             name="email"
             className={styles.form}
-            onChange={handleFormFieldChange}
-            //pattern="[^@\s]+@[^@\s]+\.[^@\s]+"  
+            onChange={handleFormFieldChange}  
           />
       </div>    
         <div>
@@ -146,8 +161,9 @@ const Client_RegistrationForm = ({btnText}) => {
         <SubmitButton text={btnText} />
       </div>
       
-      
     </form>
+    </div>
+    </>
   )
 }
 
