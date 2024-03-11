@@ -24,7 +24,7 @@ model Item {
   id           Int           @id @default(autoincrement())
   name         String
   price        Float
-  restaurant   Restaurant    @relation(fields: [restaurantId], references: [id])
+  restaurant   Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   restaurantId Int
 
   OrderItem    OrderItem[]
@@ -43,9 +43,9 @@ model Client {
 }
 
 model OrderItem {
-  item     Item         @relation(fields: [itemId], references: [id])
+  item     Item         @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId   Int 
-  order    Orders       @relation(fields: [orderId], references: [id])
+  order    Orders       @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId  Int
   quantity Int          @default(1)
 
@@ -54,7 +54,7 @@ model OrderItem {
 
 model Orders {
   id          Int       @id @default(autoincrement())
-  client      Client    @relation(fields: [clientId], references: [id])
+  client      Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId    Int 
   status      String    @default("Nao finalizado")
   time        String    @default("00:00")

@@ -2,28 +2,29 @@ import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import { transformIntoId } from "../../../../src/app/Shopping_cart/pages/HomePage/index";
 import 'cypress-if';
 
-beforeEach(() => {
-    //cy.on on assertionError
-    cy.on('uncaught:exception', (err, runnable) => {
-        return false;
-    });
-    cy.visit('/client/home');
-    cy.wait(500);
-    cy.get('#shopping_cart_button').should('exist');
-    cy.get('#shopping_cart_button').click();
-    cy.get('#shopping_cart').should('exist');
-    cy.wait(500);
+afterEach(() => {
+    //cleaning the cart
+    cy.get('#shopping_cart')
+        .if()
+        .else(() => {
+            cy.get('#shopping_cart_button').click();
+        });
     cy.get('#clear_cart')
         .if()
         .then(($element) => {
             $element.click();
             cy.get('#yes_button').click();
+            cy.wait(500);
         });
 });
 
-Given("eu estou logado como {string} na tela {string}",
-    function (email: string, screen: string) {
-    cy.visit('/client/home');
+Given("eu estou logado como {string} com a senha {string} na tela {string}",
+    function (email: string, password: string, screen: string) {
+    cy.visit('/clients/login');
+    cy.get('input[type="email"]').type(email);
+    //type the password and press enter
+    cy.get('input[type="password"]').type(password + '{enter}');
+
     cy.wait(500);
     cy.get('#shopping_cart_button').click();
     cy.get('#shopping_cart').should('exist');
@@ -42,8 +43,7 @@ Given("o carrinho já contém {string} unidades de {string} por {string} $ cada 
     cy.wait(500);
     let cartId: string;
     for (let i = 1; i < parseInt(quantity); i++) {
-        const newPrice = (parseFloat(price) * i);
-        cartId = transformIntoId(`${restaurant} ${product} ${newPrice} ${i} plus`, true);
+        cartId = transformIntoId(`${restaurant} ${product} ${price} ${i} plus`, true);
         cy.get(cartId).click();
     }
 });
@@ -63,6 +63,11 @@ When("eu adiciono {string} do {string} por {string} $ ao carrinho",
     cy.get(
         id
     ).should('exist');
+    cy.get(transformIntoId(`${restaurant} ${product}`, true))
+        .if()
+        .then(() => {
+            return;
+        });
     cy.get(
         id + '_button'
     ).click();
@@ -120,11 +125,3 @@ Then("o carrinho está vazio",
     function () {
     cy.contains('Your cart is empty').should('exist');
 });
-
-
-    // cy.contains('*', 'cart')
-    //     .invoke('text')
-    //     .then(text => {
-    //         // Use the text content as needed
-    //         cy.log('Text content:', text);
-    //     });

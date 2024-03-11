@@ -30,14 +30,12 @@ const RestaurantProfilePage = () => {
   const api = new APIService();
 
   useEffect(() => {
-    //TODO: Remove this mock
-    console.log(user);
-    // setUserContext({
-    //   id: "1",
-    //   name: "Luquinhas",
-    //   email: "quentinhas@gmail.com",
-    //   cnpj: "24.134.488/0001-08",
-    // });
+    setUserContext({
+      id: "1",
+      name: "Luquinhas",
+      email: "quentinhas@gmail.com",
+      cnpj: "24.134.488/0001-08",
+    });
   }, []);
 
   const handleToggleEdit = () => {

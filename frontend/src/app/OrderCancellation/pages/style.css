@@ -168,21 +168,21 @@
     font-weight: bold;
   }
 
-  .status-cancelado-cancPg {
+  .status-Cancelado-cancPg {
     margin-bottom: 7%;
     color: rgb(166, 3, 3);
     padding: 1%;
     font-weight: bold;
   }
 
-  .status-aceito-cancPg {
+  .status-Aceito-cancPg {
     margin-bottom: 7%;
     color: rgb(8, 104, 8);
     padding: 1%;
     font-weight: bold;
   }
 
-  .status-pendente-cancPg {
+  .status-Pendente-cancPg {
     margin-bottom: 7%;
     color: rgb(220, 220, 34);
     padding: 1%;
@@ -225,6 +225,7 @@
   padding: 7%;
   border-radius: 5px;
   font-size: 100%;
+  z-index: 0;
 }
 
 .close-button-cancPg {
@@ -263,6 +264,7 @@
 
 .text-reason-cancPg {
   border: 1px solid #0f0f00 ;
+  z-index: 9999;
 }
 
 .input-group-cancPg {
