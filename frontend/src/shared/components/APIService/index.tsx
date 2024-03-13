@@ -59,25 +59,25 @@ export default class APIService {
       return users.data.find((user: any) => user.id === userId);
   }
 
+  getCartItemsInfo(cart: any, items: any, restaurants: any) {
+    return cart.map((cartItem: any) => {
+         const item = items.find((item) => cartItem.itemId === item.id);
+         return {
+           id: item.id,
+           name: item.name,
+           price: item.price,
+           quantity: cartItem.quantity,
+           restaurantName: (restaurants.find((restaurant: any) => restaurant.id === item.restaurantId)).name
+         }
+    });
+  }
+
+
   async getShoppingCart(userId: number) {
       const cart = (await this.api.get(`/${userId}/shopping_cart/`)).data;
       const items = (await this.getAllItems()).data;
       const restaurants = (await this.getRestaurants()).data;
-      const itemsInCart = [];
-      for(var i = 0; i < cart.length; i++){
-          items.find((item: any) => {
-              if (item.id === cart[i].itemId) {
-                  itemsInCart.push({
-                    id: item.id,
-                    name: item.name,
-                    price: item.price,
-                    quantity: cart[i].quantity,
-                    restaurantName: (restaurants.find((restaurant: any) => restaurant.id === item.restaurantId)).name
-                  });
-              }
-          });
-      }
-      return itemsInCart;
+      return this.getCartItemsInfo(cart, items, restaurants);
   }
 
   async addItemToCart(userId: number, itemId: number) {
